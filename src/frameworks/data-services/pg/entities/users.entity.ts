@@ -32,31 +32,6 @@ export class UsersEntity extends BaseEntity {
   })
   avatar: string;
 
-  @Column({
-    name: 'is_google_login',
-    default: false,
-    nullable: false,
-  })
-  isGoogleLogin: boolean;
-
-  @Column({
-    name: 'google_id',
-    nullable: true,
-  })
-  googleId: string;
-
-  @Column({
-    name: 'google_access_token',
-    nullable: true,
-  })
-  googleAccessToken: string;
-
-  // @Column({
-  //   name: 'google_refresh_token',
-  //   nullable: true,
-  // })
-  // googleRefreshToken: string;
-
   toJSON() {
     return {
       ...this,

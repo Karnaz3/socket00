@@ -41,14 +41,12 @@
     "class-validator": "^0.14.0",
     "dayjs": "^1.11.11",
     "express-rate-limit": "^7.0.1",
-    "firebase-admin": "^12.6.0",
-    "google-auth-library": "^9.14.1",
     "joi": "^17.10.2",
     "nestjs-cls": "^3.5.1",
-    "nodemailer": "^6.9.7",
     "pg": "^8.11.3",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
+    "socket.io": "^4.8.1",
     "typeorm": "^0.3.17"
   },
   "devDependencies": {

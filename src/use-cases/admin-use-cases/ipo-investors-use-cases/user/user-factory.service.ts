@@ -12,14 +12,14 @@ export class UserFactoryService {
     return user;
   }
 
-  updateInvestor(updateAdminDto: UpdateUserDto) {
+  updateUser(updateAdminDto: UpdateUserDto) {
     const newUser = new UserModel();
     newUser.name = updateAdminDto.name;
     newUser.avatar = updateAdminDto.avatar;
     return newUser;
   }
 
-  updateInvestorPassword(updateAdminPasswordDto: UpdateUserPasswordDto) {
+  updateUserPassword(updateAdminPasswordDto: UpdateUserPasswordDto) {
     const newUser = new UserModel();
     newUser.password = updateAdminPasswordDto.newPassword;
     return newUser;

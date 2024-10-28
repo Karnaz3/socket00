@@ -5,8 +5,4 @@ export class UserModel {
   password: string;
   avatar: string;
   isVerified: boolean;
-  isGoogleLogin: boolean;
-  googleId: string;
-  googleAccessToken: string;
-  // googleRefreshToken: string;
 }

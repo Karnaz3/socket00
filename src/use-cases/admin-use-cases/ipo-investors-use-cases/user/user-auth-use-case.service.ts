@@ -44,8 +44,6 @@ export class UserAuthUseCaseService {
       const investor = new UserModel();
       investor.email = signinDto.email;
       investor.name = signinDto.name;
-      investor.isGoogleLogin = true;
-      investor.googleAccessToken = signinDto.token;
 
       user = await this.dataServices.user.create(investor);
     }
