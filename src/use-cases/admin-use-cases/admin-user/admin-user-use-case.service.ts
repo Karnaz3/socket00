@@ -5,6 +5,7 @@ import { IDataServices } from 'src/core/abstracts';
 import { CreateAdminDto, UpdateAdminDto, UpdateAdminPasswordDto } from 'src/core/dtos/request/admin.dto';
 import { AdminModel } from 'src/core/models';
 import { AdminUserFactoryService } from './admin-user-factory.service';
+import { AdminRoleEnum } from 'src/common/enums/admin-role.enum';
 
 @Injectable()
 export class AdminUserUseCaseService {
@@ -20,6 +21,7 @@ export class AdminUserUseCaseService {
   async getAdmin(id: string): Promise<AdminModel> {
     return await this.dataServices.admin.getOne({
       id: +id,
+      role: AdminRoleEnum.ADMIN,
     });
   }
 

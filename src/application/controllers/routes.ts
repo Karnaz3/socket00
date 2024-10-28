@@ -6,7 +6,7 @@ import { FileUploadControllerModule } from './file-upload/file-upload.module';
 
 const routes: Routes = [
   {
-    path: '/api',
+    path: '/',
     children: [
       {
         path: '/admin',
