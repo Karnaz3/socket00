@@ -1,0 +1,17 @@
+version: '2'
+
+services:
+  api:
+    build:
+      context: .
+    restart: 'no'
+    env_file:
+      - .env
+    ports:
+      - 8080:8080
+    networks:
+      - preipo
+
+networks:
+  gemloan:
+    driver: bridge
