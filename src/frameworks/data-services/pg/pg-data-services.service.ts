@@ -10,7 +10,10 @@ import { FileModel } from 'src/core/models/file.model';
 import { UserModel } from 'src/core/models/user.model';
 import { DataSource, Repository } from 'typeorm';
 import { AdminEntity } from './entities';
+import { ChatRoomEntity } from './entities/chat-room.entity';
 import { FileEntity } from './entities/file.entity';
+import { MessageEntity } from './entities/message.entity';
+import { UserChatRoomEntity } from './entities/user-chat-room.entity';
 import { UsersEntity } from './entities/users.entity';
 import { PgGenericRepository } from './pg-generic-repository';
 import { PgAdminRepository } from './repositories/admin.repository';
@@ -21,6 +24,9 @@ export class PgDataServices implements IDataServices, OnApplicationBootstrap {
   admin: IAdminRepository<AdminModel>;
   user: IUserRepository<UserModel>;
   file: PgGenericRepository<FileModel>;
+  chatRoom: PgGenericRepository<ChatRoomEntity>;
+  message: PgGenericRepository<MessageEntity>;
+  userChatRoom: PgGenericRepository<UserChatRoomEntity>;
 
   constructor(
     @Inject(AdminEntity.REPOSITORY)
@@ -36,6 +42,15 @@ export class PgDataServices implements IDataServices, OnApplicationBootstrap {
 
     @Inject(InjectableString.APP_DATA_SOURCE)
     private dataSource: DataSource,
+
+    @Inject(ChatRoomEntity.REPOSITORY)
+    private chatRoomRepository: Repository<ChatRoomEntity>,
+
+    @Inject(MessageEntity.REPOSITORY)
+    private messageRepository: Repository<MessageEntity>,
+
+    @Inject(UserChatRoomEntity.REPOSITORY)
+    private userChatRoomRepository: Repository<UserChatRoomEntity>,
   ) {}
 
   onApplicationBootstrap() {
@@ -45,5 +60,11 @@ export class PgDataServices implements IDataServices, OnApplicationBootstrap {
     this.user = new PgIUserRepository(this.cls, this.userRepository);
     // file
     this.file = new PgGenericRepository(this.cls, this.fileRepository);
+    // chatRoom
+    this.chatRoom = new PgGenericRepository(this.cls, this.chatRoomRepository);
+    // message
+    this.message = new PgGenericRepository(this.cls, this.messageRepository);
+    // userChatRoom
+    this.userChatRoom = new PgGenericRepository(this.cls, this.userChatRoomRepository);
   }
 }

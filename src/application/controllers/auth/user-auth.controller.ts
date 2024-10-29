@@ -7,8 +7,8 @@ import { AppClsStore, IInvestorClsData } from 'src/common/interface/app-cls-stor
 import { UserDto } from 'src/core/dtos/request/user.dto';
 
 import { SigninDto, SigninWithGoogleDto } from 'src/core/dtos/request/signin.dto';
-import { UserAuthUseCaseService } from 'src/use-cases/admin-use-cases/ipo-investors-use-cases/user/user-auth-use-case.service';
-import { IpoInvestorUseCaseService } from 'src/use-cases/admin-use-cases/ipo-investors-use-cases/user/user-use-case.service';
+import { UserAuthUseCaseService } from 'src/use-cases/admin-use-cases/user-usecase/user/user-auth-use-case.service';
+import { IpoInvestorUseCaseService } from 'src/use-cases/admin-use-cases/user-usecase/user/user-use-case.service';
 
 @Controller('/users')
 export class UserAuthController {

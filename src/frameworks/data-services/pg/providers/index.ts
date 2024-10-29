@@ -1,7 +1,10 @@
 import InjectableString from 'src/common/injectable.string';
 import { DataSource } from 'typeorm';
 import { AdminEntity } from '../entities';
+import { ChatRoomEntity } from '../entities/chat-room.entity';
 import { FileEntity } from '../entities/file.entity';
+import { MessageEntity } from '../entities/message.entity';
+import { UserChatRoomEntity } from '../entities/user-chat-room.entity';
 import { UsersEntity } from '../entities/users.entity';
 import { appDataSourceProviders } from './appDatabase.provider';
 
@@ -26,6 +29,28 @@ const providers = [
     provide: FileEntity.REPOSITORY,
     useFactory: (dataSource: DataSource) => {
       return dataSource.getRepository(FileEntity);
+    },
+    inject: [InjectableString.APP_DATA_SOURCE],
+  },
+
+  {
+    provide: ChatRoomEntity.REPOSITORY,
+    useFactory: (dataSource: DataSource) => {
+      return dataSource.getRepository(ChatRoomEntity);
+    },
+    inject: [InjectableString.APP_DATA_SOURCE],
+  },
+  {
+    provide: MessageEntity.REPOSITORY,
+    useFactory: (dataSource: DataSource) => {
+      return dataSource.getRepository(MessageEntity);
+    },
+    inject: [InjectableString.APP_DATA_SOURCE],
+  },
+  {
+    provide: UserChatRoomEntity.REPOSITORY,
+    useFactory: (dataSource: DataSource) => {
+      return dataSource.getRepository(UserChatRoomEntity);
     },
     inject: [InjectableString.APP_DATA_SOURCE],
   },

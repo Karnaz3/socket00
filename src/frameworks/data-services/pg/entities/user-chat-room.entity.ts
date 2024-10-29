@@ -5,7 +5,7 @@ import { UsersEntity } from './users.entity';
 import { MessageEntity } from './message.entity';
 
 @Entity('user_chat_room')
-export class UserChatRoom extends BaseEntity {
+export class UserChatRoomEntity extends BaseEntity {
   @ManyToOne(() => UsersEntity, { onDelete: 'CASCADE' })
   @JoinColumn({
     name: 'user_id',
