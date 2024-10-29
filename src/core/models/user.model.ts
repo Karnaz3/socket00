@@ -5,4 +5,5 @@ export class UserModel {
   password: string;
   avatar: string;
   isVerified: boolean;
+  isOnline: boolean;
 }

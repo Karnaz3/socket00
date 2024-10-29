@@ -27,6 +27,12 @@ export class UsersEntity extends BaseEntity {
   isVerified: boolean;
 
   @Column({
+    name: 'is_online',
+    default: false,
+  })
+  isOnline: boolean;
+
+  @Column({
     nullable: true,
     name: 'avatar',
   })
