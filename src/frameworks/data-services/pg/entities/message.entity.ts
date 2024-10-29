@@ -7,6 +7,7 @@ import { UsersEntity } from './users.entity';
 export class MessageEntity extends BaseEntity {
   @Column({
     name: 'content',
+    nullable: false, // Ensure all messages must have content
   })
   content: string;
 
@@ -18,7 +19,7 @@ export class MessageEntity extends BaseEntity {
 
   @ManyToOne(() => ChatRoomEntity, { onDelete: 'CASCADE' })
   @JoinColumn({
-    name: 'chat_room_id',
+    name: 'user_chat_room_id', // Assuming the foreign key in the database is user_chat_room_id
   })
-  chatRoom: ChatRoomEntity;
+  userChatRoom: ChatRoomEntity;
 }

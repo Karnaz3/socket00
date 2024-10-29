@@ -1,49 +1,37 @@
 import { Injectable } from '@nestjs/common';
-import { ChatRoomDto, MessageDto, UserChatRoomDto } from 'src/core/dtos/request/chat.dto';
+import { ChatRoomDto, MessageDto } from 'src/core/dtos/request/chat.dto';
 import { ChatRoomModel } from 'src/core/models/chat-room.model.ts';
 import { MessageModel } from 'src/core/models/message.model';
-import { UserChatRoomModel } from 'src/core/models/user-chat-room.model';
+import { ParticipantsModel } from 'src/core/models/participants.model';
 import { UserModel } from 'src/core/models/user.model';
 
 @Injectable()
 export class ChatFactoryService {
   constructor() {}
 
-  createMessage(dto: MessageDto) {
+  createMessagePrivate(dto: MessageDto): MessageModel {
     const message = new MessageModel();
-    if (dto.content) message.content = dto.content;
-    if (dto.sender) {
+    message.content = dto.content; // Assuming you might want a default content
+    if (dto.senderId) {
       const sender = new UserModel();
       sender.id = dto.senderId;
       message.sender = sender;
     }
-    if (dto.chatRoom) {
-      const chatRoom = new ChatRoomModel();
-      chatRoom.id = dto.chatRoomId;
-      message.chatRoom = chatRoom;
+    if (dto.chatRoomId) {
+      this.createChatRoomPrivate(dto.chatRoomId as unknown as ChatRoomDto);
     }
     return message;
   }
 
-  createChatRoom(dto: ChatRoomDto) {
+  createChatRoomPrivate(dto: ChatRoomDto): ChatRoomModel {
     const chatRoom = new ChatRoomModel();
-    if (dto.name) chatRoom.name = dto.name;
-    if (dto.isPrivate) chatRoom.isPrivate = dto.isPrivate;
+    if (chatRoom.name) chatRoom.name = dto.name || 'Default Name';
+    chatRoom.isPrivate = true;
+    if (dto.participants) {
+      const participants = new ParticipantsModel();
+      participants.id = dto.participants.id;
+      chatRoom.participants = participants;
+    }
     return chatRoom;
-  }
-
-  createUserChatRoom(dto: UserChatRoomDto) {
-    const userChatRoom = new UserChatRoomModel();
-    if (dto.user) {
-      const user = new UserModel();
-      user.id = dto.userId;
-      userChatRoom.user = user;
-    }
-    if (dto.chatRoom) {
-      const chatRoom = new ChatRoomModel();
-      chatRoom.id = dto.chatRoomId;
-      userChatRoom.chatRoom = chatRoom;
-    }
-    return userChatRoom;
   }
 }

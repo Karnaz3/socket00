@@ -1,5 +1,10 @@
+import { IsNotEmpty } from 'class-validator';
+import { MessageModel } from 'src/core/models/message.model';
+import { ParticipantsModel } from 'src/core/models/participants.model';
+
 export class MessageDto {
-  content?: string;
+  @IsNotEmpty()
+  content: string;
   sender?: boolean;
   senderId?: number;
   chatRoom?: boolean;
@@ -9,11 +14,11 @@ export class MessageDto {
 export class ChatRoomDto {
   name?: string;
   isPrivate?: boolean;
+  lastMessage: MessageModel;
+  participants: ParticipantsModel;
 }
 
-export class UserChatRoomDto {
-  user?: boolean;
-  userId?: number;
-  chatRoom?: boolean;
-  chatRoomId?: number;
+export class ParticipantDto {
+  userId: number;
+  chatRoomId: number;
 }

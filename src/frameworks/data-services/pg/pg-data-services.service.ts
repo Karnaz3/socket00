@@ -13,7 +13,7 @@ import { AdminEntity } from './entities';
 import { ChatRoomEntity } from './entities/chat-room.entity';
 import { FileEntity } from './entities/file.entity';
 import { MessageEntity } from './entities/message.entity';
-import { UserChatRoomEntity } from './entities/user-chat-room.entity';
+import { ParticipantsEntity } from './entities/participants.entity';
 import { UsersEntity } from './entities/users.entity';
 import { PgGenericRepository } from './pg-generic-repository';
 import { PgAdminRepository } from './repositories/admin.repository';
@@ -26,7 +26,7 @@ export class PgDataServices implements IDataServices, OnApplicationBootstrap {
   file: PgGenericRepository<FileModel>;
   chatRoom: PgGenericRepository<ChatRoomEntity>;
   message: PgGenericRepository<MessageEntity>;
-  userChatRoom: PgGenericRepository<UserChatRoomEntity>;
+  userChatRoom: PgGenericRepository<ParticipantsEntity>;
 
   constructor(
     @Inject(AdminEntity.REPOSITORY)
@@ -49,8 +49,8 @@ export class PgDataServices implements IDataServices, OnApplicationBootstrap {
     @Inject(MessageEntity.REPOSITORY)
     private messageRepository: Repository<MessageEntity>,
 
-    @Inject(UserChatRoomEntity.REPOSITORY)
-    private userChatRoomRepository: Repository<UserChatRoomEntity>,
+    @Inject(ParticipantsEntity.REPOSITORY)
+    private userChatRoomRepository: Repository<ParticipantsEntity>,
   ) {}
 
   onApplicationBootstrap() {
