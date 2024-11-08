@@ -1,3 +1,5 @@
+import { ChatRoomModel } from './chat-room.model.ts';
+
 export class UserModel {
   id: number;
   name: string;
@@ -6,4 +8,6 @@ export class UserModel {
   avatar: string;
   isVerified: boolean;
   isOnline: boolean;
+  isAdmin: boolean;
+  chatRoom: ChatRoomModel[];
 }

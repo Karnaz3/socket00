@@ -1,10 +1,14 @@
 import { MessageModel } from './message.model';
-import { ParticipantsModel } from './participants.model';
+import { UserModel } from './user.model';
+// import { ParticipantsModel } from './participants.model';
 
 export class ChatRoomModel {
   id: number;
   name: string;
   isPrivate: boolean;
-  lastMessage: MessageModel;
-  participants: ParticipantsModel;
+  user: UserModel[];
+  message: MessageModel[];
+  // participant: ParticipantsModel[];
+  //excluded
+  // participants: UserModel[];
 }

@@ -1,5 +1,6 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, ManyToMany } from 'typeorm';
 import { BaseEntity } from './base.entity';
+import { ChatRoomEntity } from './chat-room.entity';
 
 @Entity('users')
 export class UsersEntity extends BaseEntity {
@@ -37,6 +38,15 @@ export class UsersEntity extends BaseEntity {
     name: 'avatar',
   })
   avatar: string;
+
+  @Column({
+    name: 'is_admin',
+    default: false,
+  })
+  isAdmin: boolean;
+
+  @ManyToMany(() => ChatRoomEntity, (chatRoom) => chatRoom.user)
+  chatRoom: ChatRoomEntity[];
 
   toJSON() {
     return {

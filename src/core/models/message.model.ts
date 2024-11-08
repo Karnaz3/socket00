@@ -5,5 +5,5 @@ export class MessageModel {
   id: number;
   content: string;
   sender: UserModel;
-  userChatRoom: ChatRoomModel;
+  chatRoom: ChatRoomModel;
 }

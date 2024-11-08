@@ -7,7 +7,6 @@ import { UsersEntity } from './users.entity';
 export class MessageEntity extends BaseEntity {
   @Column({
     name: 'content',
-    nullable: false, // Ensure all messages must have content
   })
   content: string;
 
@@ -21,5 +20,5 @@ export class MessageEntity extends BaseEntity {
   @JoinColumn({
     name: 'user_chat_room_id', // Assuming the foreign key in the database is user_chat_room_id
   })
-  userChatRoom: ChatRoomEntity;
+  chatRoom: ChatRoomEntity;
 }
