@@ -17,7 +17,7 @@ export class ChatRoomEntity extends BaseEntity {
   })
   isPrivate: boolean;
 
-  @ManyToMany(() => UsersEntity, (user) => user.chatRoom)
+  @ManyToMany(() => UsersEntity, (user) => user.chatRoom, { eager: true })
   @JoinTable({
     name: 'participants',
     joinColumn: {
@@ -31,10 +31,6 @@ export class ChatRoomEntity extends BaseEntity {
   })
   user: UsersEntity[];
 
-  @OneToMany(() => MessageEntity, (message) => message.chatRoom)
+  @OneToMany(() => MessageEntity, (message) => message.chatRoom, { eager: true })
   message: MessageEntity[];
-
-  // (many to many can only have join table)
-  // @OneToMany(() => ParticipantsEntity, (participant) => participant.chatRoom)
-  // participant: ParticipantsEntity[];
 }

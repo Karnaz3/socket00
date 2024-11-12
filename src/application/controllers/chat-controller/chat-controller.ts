@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { CoreApiResponse } from 'src/application/api/core-api-response';
 import { ChatRoomDto } from 'src/core/dtos/request/chat.dto';
 import { ChatUseCaseService } from 'src/use-cases/chat-usecase/chat-usecase.service';
@@ -14,5 +14,10 @@ export class ChatController {
   @Get('/get-rooms')
   async getRooms() {
     return CoreApiResponse.success(await this.useCaseService.getCreatedChatRooms());
+  }
+
+  @Get('/get-participants/:chatroomId')
+  async getParticipants(@Param('chatroomId') chatroomId: number) {
+    return CoreApiResponse.success(await this.useCaseService.getParticipantsSameRoom(chatroomId));
   }
 }

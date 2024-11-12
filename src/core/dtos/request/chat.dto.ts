@@ -9,9 +9,9 @@ export class MessageDto {
 }
 
 export class ChatRoomDto {
+  id?: number;
   name?: string;
-  @IsNotEmpty()
-  participant: number;
+  reciever?: number
 }
 
 export class ParticipantDto {

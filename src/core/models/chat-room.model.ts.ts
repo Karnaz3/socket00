@@ -8,7 +8,4 @@ export class ChatRoomModel {
   isPrivate: boolean;
   user: UserModel[];
   message: MessageModel[];
-  // participant: ParticipantsModel[];
-  //excluded
-  // participants: UserModel[];
 }

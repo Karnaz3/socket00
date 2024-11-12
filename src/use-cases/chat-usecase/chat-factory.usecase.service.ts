@@ -1,18 +1,20 @@
 import { Injectable } from '@nestjs/common';
-import { ChatRoomDto, MessageDto, ParticipantDto } from 'src/core/dtos/request/chat.dto';
+import { ChatRoomDto, MessageDto } from 'src/core/dtos/request/chat.dto';
 import { ChatRoomModel } from 'src/core/models/chat-room.model.ts';
 import { MessageModel } from 'src/core/models/message.model';
-// import { ParticipantsModel } from 'src/core/models/participants.model';
 import { UserModel } from 'src/core/models/user.model';
 
 @Injectable()
 export class ChatFactoryService {
   constructor() {}
 
-  createRoomChat(dto: ChatRoomDto) {
+  //worksfor single / private chat
+
+  createRoomChat(dto: ChatRoomDto, sender, reciever) {
     const room = new ChatRoomModel();
     room.name = dto.name;
     room.isPrivate = true;
+    room.user = [sender, reciever];
     return room;
   }
 
@@ -32,19 +34,4 @@ export class ChatFactoryService {
     return message;
   }
 
-  // createParticipant(userId: number, chatRoomId: number) {
-  //   console.log(userId, chatRoomId);
-  //   const participant = new ParticipantsModel();
-  //   if (userId) {
-  //     const user = new UserModel();
-  //     user.id = userId;
-  //     participant.user = user;
-  //   }
-  //   if (chatRoomId) {
-  //     const chatRoom = new ChatRoomModel();
-  //     chatRoom.id = chatRoomId;
-  //     participant.chatRoom = chatRoom;
-  //   }
-  //   return participant;
-  // }
 }
