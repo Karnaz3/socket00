@@ -5,13 +5,14 @@ export class MessageDto {
   @IsNotEmpty()
   content: string;
   senderId?: number;
-  chatRoomId?: number;
+  @IsNotEmpty()
+  chatRoomId: number;
 }
 
 export class ChatRoomDto {
   id?: number;
   name?: string;
-  reciever?: number
+  reciever?: number;
 }
 
 export class ParticipantDto {

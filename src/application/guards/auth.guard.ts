@@ -40,9 +40,10 @@ export class AuthGuard implements CanActivate {
 
     const isUser =
       this._reflector.getAllAndOverride<boolean>(IS_USER_KEY, [context.getHandler(), context.getClass()]) ||
-      requestUrl.startsWith('/api/chat/single-chat')
+      requestUrl.startsWith('/api/chat')
         ? true
         : false;
+
 
     this.cls.set('isPublic', isPublic);
     this.cls.set('isAdmin', isAdmin);

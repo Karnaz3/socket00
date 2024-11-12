@@ -49,15 +49,17 @@ export class ChatUseCaseService {
   }
 
   async checkForExistingPrivateChatRoom(authenticatedUser: UserModel, reciever: UserModel): Promise<ChatRoomModel> {
-    const room = await this.dataService.chatRoom.getOneOrNull({ user: { id: reciever.id }, isPrivate: true });
-    if (room) {
+    const rooms = await this.dataService.chatRoom.getAllWithoutPagination({
+      user: { id: authenticatedUser.id },
+      isPrivate: true,
+    });
+    rooms.forEach((room) => {
       room.user.forEach((user) => {
-        console.log(user);
-        if (user.id === authenticatedUser.id) {
+        if (user.id === reciever.id) {
           return room;
         }
       });
-    }
-    return room;
+    });
+    return null;
   }
 }
