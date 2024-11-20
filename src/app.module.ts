@@ -15,12 +15,16 @@ import { DataServicesModule } from './services/data-services/data-services.modul
 import { JwtServiceModule } from './services/jwt/jwt.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { SocketEventModule } from './application/socket-events/socket-event.module';
 @Module({
   imports: [
     ClsServiceModule,
     JwtServiceModule,
     EventEmitterModule.forRoot({}),
     DataServicesModule,
+
+    //module for socket
+    SocketEventModule,
 
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'uploads'),

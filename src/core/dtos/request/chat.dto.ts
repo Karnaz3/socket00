@@ -1,5 +1,4 @@
 import { IsNotEmpty } from 'class-validator';
-import { MessageModel } from 'src/core/models/message.model';
 
 export class MessageDto {
   @IsNotEmpty()

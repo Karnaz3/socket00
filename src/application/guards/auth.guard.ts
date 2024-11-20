@@ -44,7 +44,6 @@ export class AuthGuard implements CanActivate {
         ? true
         : false;
 
-
     this.cls.set('isPublic', isPublic);
     this.cls.set('isAdmin', isAdmin);
     this.cls.set('isUser', isUser);
