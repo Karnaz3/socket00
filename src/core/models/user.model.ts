@@ -1,3 +1,5 @@
+import { ChatRoomModel } from './chat-room.model.ts';
+
 export class UserModel {
   id: number;
   name: string;
@@ -5,8 +7,7 @@ export class UserModel {
   password: string;
   avatar: string;
   isVerified: boolean;
-  isGoogleLogin: boolean;
-  googleId: string;
-  googleAccessToken: string;
-  // googleRefreshToken: string;
+  isOnline: boolean;
+  isAdmin: boolean;
+  chatRoom: ChatRoomModel[];
 }

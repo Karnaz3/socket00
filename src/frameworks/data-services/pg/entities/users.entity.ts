@@ -1,5 +1,6 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, ManyToMany } from 'typeorm';
 import { BaseEntity } from './base.entity';
+import { ChatRoomEntity } from './chat-room.entity';
 
 @Entity('users')
 export class UsersEntity extends BaseEntity {
@@ -27,35 +28,25 @@ export class UsersEntity extends BaseEntity {
   isVerified: boolean;
 
   @Column({
+    name: 'is_online',
+    default: false,
+  })
+  isOnline: boolean;
+
+  @Column({
     nullable: true,
     name: 'avatar',
   })
   avatar: string;
 
   @Column({
-    name: 'is_google_login',
+    name: 'is_admin',
     default: false,
-    nullable: false,
   })
-  isGoogleLogin: boolean;
+  isAdmin: boolean;
 
-  @Column({
-    name: 'google_id',
-    nullable: true,
-  })
-  googleId: string;
-
-  @Column({
-    name: 'google_access_token',
-    nullable: true,
-  })
-  googleAccessToken: string;
-
-  // @Column({
-  //   name: 'google_refresh_token',
-  //   nullable: true,
-  // })
-  // googleRefreshToken: string;
+  @ManyToMany(() => ChatRoomEntity, (chatRoom) => chatRoom.user)
+  chatRoom: ChatRoomEntity[];
 
   toJSON() {
     return {

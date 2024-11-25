@@ -24,7 +24,7 @@ export class AuthGuard implements CanActivate {
     // if is public set isPublic to true and return
     const isPublic =
       this._reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [context.getHandler(), context.getClass()]) ||
-      requestUrl.startsWith('/api/pre-ipo/public')
+      requestUrl.startsWith('/api/public')
         ? true
         : false;
     if (isPublic) {
@@ -34,13 +34,13 @@ export class AuthGuard implements CanActivate {
 
     const isAdmin =
       this._reflector.getAllAndOverride<boolean>(IS_ADMIN_KEY, [context.getHandler(), context.getClass()]) ||
-      requestUrl.startsWith('/api/pre-ipo/admin')
+      requestUrl.startsWith('/api/admin')
         ? true
         : false;
 
     const isUser =
       this._reflector.getAllAndOverride<boolean>(IS_USER_KEY, [context.getHandler(), context.getClass()]) ||
-      requestUrl.startsWith('/api/pre-ipo/ipo-investors')
+      requestUrl.startsWith('/api/chat')
         ? true
         : false;
 
