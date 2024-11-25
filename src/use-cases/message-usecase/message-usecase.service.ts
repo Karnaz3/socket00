@@ -42,6 +42,7 @@ export class MessageUseCaseService {
     return true;
   }
 
+  //get private messages
   async getMessages(chatRoomId: number) {
     const loggedInUser = this.cls.get<IInvestorClsData>('investorUser');
     if (!loggedInUser) throw new AppException({}, 'Unauthorized access', 401);
@@ -83,22 +84,24 @@ export class MessageUseCaseService {
   async createMessagePublicSocket(dto: MessageDto, senderId: number) {
     // Fetch the global room
     const room = await this.chatUseCaseService.getGlobalChatRoom();
-    if (!room) {
-      throw new AppException({}, 'Global chat room does not exist', 404);
-    }
-
     // Validate the sender
     const sender = await this.dataService.user.getOne({ id: senderId });
-    if (!sender) {
-      throw new AppException({}, 'Unauthorized access', 401);
-    }
-
     // Assign room and sender information to the DTO
     dto.chatRoomId = room.id;
     dto.senderId = sender.id;
-
     // Create the message
     const message = this.MessageFactoryService.createMessageChat(dto);
     return await this.dataService.message.create(message);
+  }
+
+  //get public messages
+  async getMessagesPublic() {
+    const room = await this.chatUseCaseService.getGlobalChatRoom();
+    const data = await this.dataService.message.getAllWithoutPagination(
+      { chatRoom: { id: room.id } },
+      { sender: true },
+    );
+    console.log(data);
+    return data;
   }
 }
