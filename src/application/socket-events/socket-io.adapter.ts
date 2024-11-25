@@ -37,6 +37,7 @@ export class SocketIOAdapter extends IoAdapter {
 
     // chat middleware
     server.of('/message-private-chat').use(createAuthMiddleware(jwtService, dataServices)); // sets the authPayload and jwtPayload on the socket object
+    server.of('/message-public-caht').use(createAuthMiddleware(jwtService, dataServices)); // sets the authPayload and jwtPayload on the socket object
 
     return server;
   }
@@ -63,7 +64,6 @@ const createAuthMiddleware =
 
       (payload as any).id = user.id;
       socket.jwtPayload = payload as any;
-      console.log('jwtpayload', socket.jwtPayload);
 
       next();
     } catch (err) {

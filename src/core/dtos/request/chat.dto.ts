@@ -1,10 +1,10 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsOptional } from 'class-validator';
 
 export class MessageDto {
   @IsNotEmpty()
   content: string;
   senderId?: number;
-  @IsNotEmpty()
+  @IsOptional()
   chatRoomId: number;
 }
 
@@ -17,4 +17,9 @@ export class ChatRoomDto {
 export class ParticipantDto {
   userId: number;
   chatRoomId: number;
+}
+
+export class GlobalChatDto {
+  id?: number;
+  message: string;
 }

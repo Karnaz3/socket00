@@ -25,4 +25,19 @@ export class MessageFactoryService {
     }
     return message;
   }
+
+  //createGlobalMessage(dto: GlobalMessageDto) {
+  //  const message = new MessageModel();
+  //  message.content = dto.content;
+  //  if (dto.chatRoomId) {
+  //    const chatRoom = new ChatRoomModel();
+  //    chatRoom.id = dto.chatRoomId;
+  //    message.chatRoom = chatRoom;
+  //  }
+  //  if (dto.senderId) {
+  //    const sender = new UserModel();
+  //    sender.id = dto.senderId;
+  //    message.sender = sender;
+  //  }
+  //}
 }

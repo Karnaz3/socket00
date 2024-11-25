@@ -15,4 +15,11 @@ export class ChatFactoryService {
     room.user = [sender, reciever];
     return room;
   }
+
+  createRoomChatPublic() {
+    const room = new ChatRoomModel();
+    room.name = 'Global Chat';
+    room.isPrivate = false;
+    return room;
+  }
 }

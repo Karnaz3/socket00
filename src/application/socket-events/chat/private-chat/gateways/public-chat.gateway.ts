@@ -7,17 +7,17 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Namespace } from 'socket.io';
-import { ChatRoomDto, MessageDto } from 'src/core/dtos/request/chat.dto';
+import { MessageDto } from 'src/core/dtos/request/chat.dto';
 import { ChatUseCaseService } from 'src/use-cases/chat-usecase/chat-usecase.service';
 import { MessageUseCaseService } from 'src/use-cases/message-usecase/message-usecase.service';
 
 @WebSocketGateway({
-  namespace: '/message-private-chat', // The namespace
+  namespace: '/message-public-caht', // The namespace
   transport: ['websocket'], // Use WebSocket as the transport
 })
-export class PrivateChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
+export class PublicChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer() namespace: Namespace;
-  private readonly logger = new Logger(PrivateChatGateway.name);
+  private readonly logger = new Logger(PublicChatGateway.name);
 
   constructor(
     private readonly chatUseCaseService: ChatUseCaseService,
@@ -38,67 +38,73 @@ export class PrivateChatGateway implements OnGatewayConnection, OnGatewayDisconn
     this.logger.log(`Client disconnected: ${client.id}`);
   }
 
-  @SubscribeMessage('startPrivateChat')
-  async handleStartPrivateChat(client: any, payload: ChatRoomDto) {
+  @SubscribeMessage('startPublicChat')
+  async handleStartPrivateChat(client: any) {
     try {
       const userAId = client.jwtPayload.id;
       // Use ChatUseCaseService to create or get the private chat room
-      const room = await this.chatUseCaseService.createSingleChat(payload);
-
+      const room = await this.chatUseCaseService.getGlobalChatRoom();
       // Make User A join the room
       client.join(room.id);
-      this.logger.log(`User ${userAId} joined private chat room: ${room.id}`);
+      this.logger.log(`User ${userAId} joined public chat room: ${room.id}`);
 
       // Notify User A that the room has been successfully joined
-      client.emit('privateChatStarted', { roomId: room.id });
+      client.emit('publicChatStarted', { roomId: room.id });
     } catch (error) {
-      this.logger.error(`Failed to start private chat: ${error.message}`);
-      client.emit('error', { message: 'Failed to start private chat' });
+      this.logger.error(`Failed to start public chat: ${error.message}`);
+      client.emit('error', { message: 'Failed to start public chat' });
     }
   }
 
-  @SubscribeMessage('joinPrivateChat')
-  async handleJoinPrivateChat(client: any, payload: { roomId: number }) {
-    const parsePayload = typeof payload === 'string' ? JSON.parse(payload) : payload;
-    payload = parsePayload;
-
+  @SubscribeMessage('joinPublicChat')
+  async handleJoinPublicChat(client: any) {
     try {
       const userBId = client.jwtPayload.id;
 
-      const room = await this.chatUseCaseService.getParticipantsSameRoomSocket(payload.roomId, userBId);
-
-      // Ensure room ID is a string for consistency
+      const room = await this.chatUseCaseService.getGlobalChatRoom();
       const roomId = room.id.toString();
 
+      // Make the client join the room
       client.join(roomId, () => {
-        this.logger.log(`User ${userBId} joined private chat room: ${roomId}`);
-        this.namespace.to(roomId).emit('userJoined', { userId: userBId, roomId });
+        this.logger.log(`User ${userBId} joined public chat room: ${roomId}`);
+        this.logger.log(
+          `Current clients in room ${roomId}: ${JSON.stringify([...(this.namespace.adapter.rooms.get(roomId) || [])])}`,
+        );
+
+        // Notify all users in the room about the new user
+        this.namespace.to(roomId).emit('userJoinedPublic', {
+          userId: userBId,
+          roomId,
+        });
       });
     } catch (error) {
-      this.logger.error(`Failed to join private chat: ${error.message}`);
-      client.emit('error', { message: 'Failed to join private chat' });
+      this.logger.error(`Failed to join public chat: ${error.message}`);
+      client.emit('error', { message: 'Failed to join public chat' });
     }
   }
 
-  @SubscribeMessage('sendMessage')
+  @SubscribeMessage('sendPublicMessage')
   async handleMessage(client: any, payload: MessageDto) {
     try {
       const senderId = client.jwtPayload.id;
-
       payload = typeof payload === 'string' ? JSON.parse(payload) : payload;
 
-      // Save the message using the service
-      await this.messageUseCaseService.createMessageSocket(payload, senderId);
-
-      // Use broadcast to emit to everyone except the sender
       const roomId = payload.chatRoomId.toString();
-      client.to(roomId).emit('receiveMessage', {
+      this.logger.log(`Sender ID: ${senderId}, Room ID: ${roomId}`);
+      this.logger.log(
+        `Current clients in room ${roomId}: ${JSON.stringify([...(this.namespace.adapter.rooms.get(roomId) || [])])}`,
+      );
+
+      // Save the message using the service
+      await this.messageUseCaseService.createMessagePublicSocket(payload, senderId);
+      // Emit to all users in the room
+      client.to(roomId).emit('receivePublicMessage', {
         from: senderId,
         message: payload.content,
       });
     } catch (error) {
-      this.logger.error(`Failed to send message: ${error.message}`);
-      client.emit('error', { message: 'Failed to send message' });
+      this.logger.error(`Failed to send public message: ${error.message}`);
+      client.emit('error', { message: 'Failed to send public message' });
     }
   }
 
