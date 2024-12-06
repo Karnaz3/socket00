@@ -11,7 +11,6 @@ export class MessageFactoryService {
   //worksfor single / private chat
 
   createMessageChat(dto: MessageDto) {
-    console.log(dto);
     const message = new MessageModel();
     message.content = dto.content;
     if (dto.chatRoomId) {
@@ -24,7 +23,6 @@ export class MessageFactoryService {
       sender.id = dto.senderId;
       message.sender = sender;
     }
-    console.log('message', message);
     return message;
   }
 
