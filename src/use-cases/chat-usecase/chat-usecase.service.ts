@@ -22,21 +22,21 @@ export class ChatUseCaseService {
 
     if (parsedDto.id) {
       const sender = await this.dataService.user.getOne({ id: parsedDto.id });
-      const reciever = await this.dataService.user.getOne({ id: parsedDto.reciever });
-      const existingRoom = await this.checkForExistingPrivateChatRoom(sender, reciever);
+      const receiver = await this.dataService.user.getOne({ id: parsedDto.receiver });
+      const existingRoom = await this.checkForExistingPrivateChatRoom(sender, receiver);
       if (existingRoom) return existingRoom;
-      const room = this.chatFactoryService.createRoomChat(parsedDto, sender, reciever);
+      const room = this.chatFactoryService.createRoomChat(parsedDto, sender, receiver);
       return await this.dataService.chatRoom.create(room);
     }
 
-    // sender and reciever portion (for user section issues)
+    // sender and receiver portion (for user section issues)
     const sender = this.cls.get<IInvestorClsData>('investorUser');
     const authenticatedUser = await this.dataService.user.getOne({ id: sender.id });
-    const reciever = await this.dataService.user.getOne({ id: dto.reciever });
+    const receiver = await this.dataService.user.getOne({ id: dto.receiver });
     // room creation and check for existing room (for room related issues)
-    const existingRoom = await this.checkForExistingPrivateChatRoom(authenticatedUser, reciever);
+    const existingRoom = await this.checkForExistingPrivateChatRoom(authenticatedUser, receiver);
     if (existingRoom) return existingRoom;
-    const room = this.chatFactoryService.createRoomChat(dto, authenticatedUser, reciever);
+    const room = this.chatFactoryService.createRoomChat(dto, authenticatedUser, receiver);
     return await this.dataService.chatRoom.create(room);
   }
 
@@ -60,13 +60,13 @@ export class ChatUseCaseService {
     return room;
   }
 
-  async checkForExistingPrivateChatRoom(authenticatedUser?: UserModel, reciever?: UserModel): Promise<ChatRoomModel> {
-    console.log(authenticatedUser, reciever);
+  async checkForExistingPrivateChatRoom(authenticatedUser?: UserModel, receiver?: UserModel): Promise<ChatRoomModel> {
+    console.log(authenticatedUser, receiver);
     const rooms = await this.dataService.chatRoom.getAllWithoutPagination({
       user: { id: authenticatedUser.id },
       isPrivate: true,
     });
-    return rooms.find((room) => room.user.some((user) => user.id === reciever.id)) || null;
+    return rooms.find((room) => room.user.some((user) => user.id === receiver.id)) || null;
   }
 
   async getParticipantsSameRoomSocket(chatRoomId: number, loggedUser: number) {

@@ -1,8 +1,7 @@
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
 import { BaseEntity } from './base.entity';
 import { MessageEntity } from './message.entity';
 import { UsersEntity } from './users.entity';
-// import { ParticipantsEntity } from './participants.entity';
 
 @Entity('chat_room')
 export class ChatRoomEntity extends BaseEntity {

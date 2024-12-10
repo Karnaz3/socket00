@@ -21,6 +21,20 @@ services:
       - 5052:80
     volumes:
       - pgadmin-data:/var/lib/pgadmin
+  redis:
+    image: redis:7
+    restart: always
+    ports:
+      - 6379:6379
+    volumes:
+      - redis-data:/data
+  redis-insight:
+    image: redis/redisinsight:latest
+    restart: always
+    ports:
+      - "5540:5540"
+    volumes:
+      - redis-insight:/data
 volumes:
   redis-insight:
   postgres-data:

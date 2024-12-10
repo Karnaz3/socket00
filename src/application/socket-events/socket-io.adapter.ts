@@ -23,21 +23,10 @@ export class SocketIOAdapter extends IoAdapter {
 
     const server: Server = super.createIOServer(port, { ...options, cors });
 
-    /**
-     * check code fo logging
-    //  */
-    // server.on('connection', (socket) => {
-    //   this.logger.log(`Client connected: ${socket.id}`);
-    //   console.log('Socket Object:', socket);
-    //   socket.on('disconnect', () => {
-    //     console.log('disconnected:', socket);
-    //     this.logger.log(`Client disconnected: ${socket.id}`);
-    //   });
-    // });
-
     // chat middleware
     server.of('/message-private-chat').use(createAuthMiddleware(jwtService, dataServices)); // sets the authPayload and jwtPayload on the socket object
-    server.of('/message-public-caht').use(createAuthMiddleware(jwtService, dataServices)); // sets the authPayload and jwtPayload on the socket object
+    server.of('/message-public-chat').use(createAuthMiddleware(jwtService, dataServices)); // sets the authPayload and jwtPayload on the socket object
+    server.of('/user-status').use(createAuthMiddleware(jwtService, dataServices)); // sets the authPayload and jwtPayload on the socket object
 
     return server;
   }
@@ -63,6 +52,7 @@ const createAuthMiddleware =
       }
 
       (payload as any).id = user.id;
+      (payload as any).name = user.name;
       socket.jwtPayload = payload as any;
 
       next();

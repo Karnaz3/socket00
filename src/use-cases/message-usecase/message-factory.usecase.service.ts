@@ -18,7 +18,7 @@ export class MessageFactoryService {
       chatRoom.id = dto.chatRoomId;
       message.chatRoom = chatRoom;
     }
-    if (message.sender) {
+    if (dto.senderId) {
       const sender = new UserModel();
       sender.id = dto.senderId;
       message.sender = sender;

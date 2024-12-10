@@ -16,6 +16,7 @@ import { JwtServiceModule } from './services/jwt/jwt.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { SocketEventModule } from './application/socket-events/socket-event.module';
+import { RedisModule } from './application/redis/redis.module';
 @Module({
   imports: [
     ClsServiceModule,
@@ -25,6 +26,8 @@ import { SocketEventModule } from './application/socket-events/socket-event.modu
 
     //module for socket
     SocketEventModule,
+    //redis module
+    RedisModule,
 
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'uploads'),

@@ -11,7 +11,7 @@ export class MessageDto {
 export class ChatRoomDto {
   id?: number;
   name?: string;
-  reciever?: number;
+  receiver?: number;
 }
 
 export class ParticipantDto {

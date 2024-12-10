@@ -75,4 +75,20 @@ export class EnvironmentConfigService implements DatabaseConfig, JWTConfig, Defa
   getDefaultAdminAvatar(): string {
     return this.configService.get<string>('ADMIN_AVATAR');
   }
+
+  getRedisHost(): string {
+    return this.configService.get<string>('REDIS_HOST');
+  }
+
+  getRedisPort(): number {
+    return this.configService.get<number>('REDIS_PORT');
+  }
+
+  getRedisPassword(): string {
+    return this.configService.get<string>('REDIS_PASSWORD');
+  }
+
+  getRedisUsername(): string {
+    return this.configService.get<string>('REDIS_USERNAME');
+  }
 }

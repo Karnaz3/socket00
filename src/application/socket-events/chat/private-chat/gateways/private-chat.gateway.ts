@@ -7,9 +7,11 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Namespace } from 'socket.io';
+import { InitiateChallengeDto } from 'src/core/dtos/request/challange.dto';
 import { ChatRoomDto, MessageDto } from 'src/core/dtos/request/chat.dto';
 import { ChatUseCaseService } from 'src/use-cases/chat-usecase/chat-usecase.service';
 import { MessageUseCaseService } from 'src/use-cases/message-usecase/message-usecase.service';
+import { GameplayUseCaseService } from 'src/use-cases/user-play-use-cases/request-usecase.service';
 
 @WebSocketGateway({
   namespace: '/message-private-chat', // The namespace
@@ -22,6 +24,7 @@ export class PrivateChatGateway implements OnGatewayConnection, OnGatewayDisconn
   constructor(
     private readonly chatUseCaseService: ChatUseCaseService,
     private readonly messageUseCaseService: MessageUseCaseService,
+    private readonly userStatusService: GameplayUseCaseService,
   ) {}
 
   async handleConnection(client: any) {
@@ -102,17 +105,14 @@ export class PrivateChatGateway implements OnGatewayConnection, OnGatewayDisconn
     }
   }
 
-  //@SubscribeMessage('getMessages')
-  //async handleGetMessages(client: any, payload: { roomId: number }) {
-  //  try {
-  //    // Use MessageUseCaseService to get all messages for the room
-  //    const messages = await this.messageUseCaseService.getMessagesSocket(payload.roomId, client.jwtPayload.id);
-
-  //    // Send messages back to the client
-  //    client.emit('messages', { roomId: payload.roomId, messages });
-  //  } catch (error) {
-  //    this.logger.error(`Failed to get messages: ${error.message}`);
-  //    client.emit('error', { message: 'Failed to get messages' });
-  //  }
-  //}
+  @SubscribeMessage('initiateConnection')
+  async handleGetMessages(client: any, payload: InitiateChallengeDto) {
+    try {
+      const data = await this.userStatusService.initiateChallange(payload);
+      client.emit('connectionStatus', { message: data });
+    } catch (error) {
+      this.logger.error(`Failed to start match: ${error.message}`);
+      client.emit('error', { message: 'Failed to start match' });
+    }
+  }
 }
