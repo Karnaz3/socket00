@@ -64,7 +64,7 @@ export class MessageUseCaseService {
     return await this.dataService.message.create(message);
   }
 
-  async getMessagePublicSocket(recieverId: number) {
+  async getMessagePublicSocket(receiverId: number) {
     // Fetch the global chat room
     const room = await this.chatUseCaseService.getGlobalChatRoom();
     if (!room) {
@@ -72,7 +72,7 @@ export class MessageUseCaseService {
     }
 
     // Validate the user
-    const loggedInUser = await this.dataService.user.getOne({ id: recieverId });
+    const loggedInUser = await this.dataService.user.getOne({ id: receiverId });
     if (!loggedInUser) {
       throw new AppException({}, 'Unauthorized access', 401);
     }

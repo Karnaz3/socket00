@@ -8,11 +8,11 @@ export class ChatFactoryService {
 
   //worksfor single / private chat
 
-  createRoomChat(dto: ChatRoomDto, sender, reciever) {
+  createRoomChat(dto: ChatRoomDto, sender, receiver) {
     const room = new ChatRoomModel();
     room.name = dto.name;
     room.isPrivate = true;
-    room.user = [sender, reciever];
+    room.user = [sender, receiver];
     return room;
   }
 

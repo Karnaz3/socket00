@@ -26,6 +26,7 @@ export class SocketIOAdapter extends IoAdapter {
     // chat middleware
     server.of('/message-private-chat').use(createAuthMiddleware(jwtService, dataServices)); // sets the authPayload and jwtPayload on the socket object
     server.of('/message-public-chat').use(createAuthMiddleware(jwtService, dataServices)); // sets the authPayload and jwtPayload on the socket object
+    server.of('/user-status').use(createAuthMiddleware(jwtService, dataServices)); // sets the authPayload and jwtPayload on the socket object
 
     return server;
   }

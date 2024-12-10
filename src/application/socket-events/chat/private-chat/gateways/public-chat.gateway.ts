@@ -39,7 +39,6 @@ export class PublicChatGateway implements OnGatewayConnection, OnGatewayDisconne
         await this.redisService.setUserOnline(userId); // Update Redis
 
         // Emit the user online event to inform other clients
-        client.emit('userOnline', userId);
         client.broadcast.emit('userOnline', userId); // Broadcast to others
       } catch (err) {
         this.logger.error(`Error setting user ${userId} as online`, err);
