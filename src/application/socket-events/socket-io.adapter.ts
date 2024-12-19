@@ -24,9 +24,10 @@ export class SocketIOAdapter extends IoAdapter {
     const server: Server = super.createIOServer(port, { ...options, cors });
 
     // chat middleware
-    server.of('/message-private-chat').use(createAuthMiddleware(jwtService, dataServices)); // sets the authPayload and jwtPayload on the socket object
     server.of('/message-public-chat').use(createAuthMiddleware(jwtService, dataServices)); // sets the authPayload and jwtPayload on the socket object
     server.of('/user-status').use(createAuthMiddleware(jwtService, dataServices)); // sets the authPayload and jwtPayload on the socket object
+    server.of('/message-private-chat').use(createAuthMiddleware(jwtService, dataServices)); // sets the authPayload and jwtPayload on the socket object
+    server.of('/request-service').use(createAuthMiddleware(jwtService, dataServices)); // sets the authPayload and jwtPayload on the socket object
 
     return server;
   }

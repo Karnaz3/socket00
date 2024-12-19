@@ -23,6 +23,15 @@ export class IpoInvestorUseCaseService {
     user.password = await this.bcryptService.hash(user.password);
     return await this.dataServices.user.create(user);
   }
+  async createDocUser(dto: UserDto): Promise<UserModel> {
+    const user = this.userFactory.createNewDocUser(dto);
+    const oldUser = await this.dataServices.user.getOneOrNull({ email: user.email });
+    if (oldUser) {
+      throw new AppException({ email: `${user.email} already exists` }, 'email already exists', 409);
+    }
+    user.password = await this.bcryptService.hash(user.password);
+    return await this.dataServices.user.create(user);
+  }
 
   async updateUser(dto: UpdateUserDto): Promise<UserModel> {
     const newInvestor = this.userFactory.updateUser(dto);

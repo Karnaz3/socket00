@@ -1,4 +1,4 @@
-import { IsBoolean, IsNotEmpty } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsOptional } from 'class-validator';
 
 export class InitiateChallengeDto {
   @IsNotEmpty()
@@ -7,7 +7,7 @@ export class InitiateChallengeDto {
   @IsNotEmpty()
   playerTwoId: number;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsBoolean()
   accepted: boolean;
 }

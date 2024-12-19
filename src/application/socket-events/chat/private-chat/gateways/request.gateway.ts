@@ -7,12 +7,11 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Namespace } from 'socket.io';
-import { RedisService } from 'src/application/redis/redis.service';
 import { InitiateChallengeDto } from 'src/core/dtos/request/challange.dto';
 import { GameplayUseCaseService } from 'src/use-cases/user-play-use-cases/request-usecase.service';
 
 @WebSocketGateway({
-  namespace: '/gameplay-service', // The namespace
+  namespace: '/request-service', // The namespace
   transport: ['websocket'], // Use WebSocket as the transport
 })
 export class GameplayGateway implements OnGatewayConnection, OnGatewayDisconnect {
@@ -20,8 +19,7 @@ export class GameplayGateway implements OnGatewayConnection, OnGatewayDisconnect
   private readonly logger = new Logger(GameplayGateway.name);
 
   constructor(
-    private readonly userStatusService: GameplayUseCaseService,
-    private readonly redisService: RedisService, // Inject Redis service for managing status
+    private readonly userStatusService: GameplayUseCaseService, //private readonly redisService: RedisService, // Inject Redis service for managing status
   ) {}
 
   async handleConnection(client: any) {
@@ -57,12 +55,14 @@ export class GameplayGateway implements OnGatewayConnection, OnGatewayDisconnect
     }
   }
 
-  @SubscribeMessage('initiateRequest')
+  @SubscribeMessage('initiate_Request')
   async handleChallange(client: any, payload: InitiateChallengeDto) {
+    console.log('initiate_Request');
+    console.log(payload);
     try {
       payload.playerOneId = client.jwtPayload.id;
       payload.playerTwoId = payload.playerTwoId;
-      payload.accepted = payload.accepted;
+
       //payload = typeof payload === 'string' ? JSON.parse(payload) : payload;
 
       const data = await this.userStatusService.initiateChallange({ ...payload });

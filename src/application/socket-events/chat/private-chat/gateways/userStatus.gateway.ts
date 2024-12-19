@@ -5,8 +5,8 @@ import { RedisService } from 'src/application/redis/redis.service';
 import { UserUseCaseService } from 'src/use-cases/user-use-cases/user-usecase.service';
 
 @WebSocketGateway({
-  namespace: '/user-status', // The namespace
-  transport: ['websocket'], // Use WebSocket as the transport
+  namespace: '/user-status',
+  transport: ['websocket'],
 })
 export class UserStatusGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer() namespace: Namespace;
@@ -14,23 +14,20 @@ export class UserStatusGateway implements OnGatewayConnection, OnGatewayDisconne
 
   constructor(
     private readonly userStatusService: UserUseCaseService,
-    private readonly redisService: RedisService, // Inject Redis service for managing status
+    private readonly redisService: RedisService,
   ) {}
 
   async handleConnection(client: any) {
     const userId = client.jwtPayload?.id;
     if (userId) {
-      this.logger.log(`User connected: ${client.id}, User ID: ${userId}`);
+      this.logger.log(`User status connected: ${client.id}, User ID: ${userId}`);
 
-      // Mark the user as online in the database and Redis
-      try {
-        await this.userStatusService.setUserOnline(userId); // Update database
-        await this.redisService.setUserOnline(userId); // Update Redis
-        // Emit the user online event to inform other clients
-        client.broadcast.emit('userOnline', userId); // Broadcast to others
-      } catch (err) {
-        this.logger.error(`Error setting user ${userId} as online`, err);
-      }
+      // Mark the user as online
+      await this.userStatusService.setUserOnline(userId);
+      await this.redisService.setUserOnline(userId);
+
+      // Notify others that the user is online
+      client.broadcast.emit('userOnline', userId);
     } else {
       client.disconnect();
       this.logger.warn(`User disconnected: ${client.id} due to missing JWT payload.`);
@@ -42,16 +39,12 @@ export class UserStatusGateway implements OnGatewayConnection, OnGatewayDisconne
     if (userId) {
       this.logger.log(`Client disconnected: ${client.id}, User ID: ${userId}`);
 
-      // Mark the user as offline in the database and Redis
-      try {
-        await this.userStatusService.setUserOffLine(userId); // Update database
-        await this.redisService.setUserOffline(userId); // Update Redis
+      // Mark the user as offline
+      await this.userStatusService.setUserOffLine(userId);
+      await this.redisService.setUserOffline(userId);
 
-        // Emit the user offline event to inform other clients
-        client.broadcast.emit('userOffline', userId);
-      } catch (err) {
-        this.logger.error(`Error setting user ${userId} as offline`, err);
-      }
+      // Notify others that the user is offline
+      client.broadcast.emit('userOffline', userId);
     }
   }
 }

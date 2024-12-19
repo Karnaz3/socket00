@@ -31,7 +31,7 @@ export class PublicChatGateway implements OnGatewayConnection, OnGatewayDisconne
   async handleConnection(client: any) {
     const userId = client.jwtPayload?.id;
     if (userId) {
-      this.logger.log(`User connected: ${client.id}, User ID: ${userId}`);
+      this.logger.log(`User public chat connected: ${client.id}, User ID: ${userId}`);
 
       // Mark the user as online in the database and Redis
       try {
@@ -73,7 +73,7 @@ export class PublicChatGateway implements OnGatewayConnection, OnGatewayDisconne
       const userAId = client.jwtPayload.id;
       const room = await this.chatUseCaseService.getGlobalChatRoom();
       client.join(room.id);
-      this.logger.log(`User ${userAId} joined public chat room: ${room.id}`);
+      this.logger.log(`User ${userAId} Start public chat room: ${room.id}`);
 
       client.emit('publicChatStarted', { roomId: room.id });
     } catch (error) {

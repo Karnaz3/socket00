@@ -1,7 +1,6 @@
 import { Transform } from 'class-transformer';
-import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, Matches } from 'class-validator';
+import { IsEmail, IsEnum, IsNotEmpty, IsString, Matches } from 'class-validator';
 import { ApplicationEnum } from 'src/common/enums/application.enum';
-import { InvestorPersonalDetailEnum } from 'src/common/enums/investor-personal-detail.enum';
 
 export class CreateAdminDto {
   @IsString()
@@ -64,14 +63,4 @@ export class UpdateApplicationStatusDto {
   @IsNotEmpty()
   @IsEnum(ApplicationEnum)
   status: ApplicationEnum;
-}
-
-export class UpdateInvestorApplicationDto {
-  @IsNotEmpty()
-  investorId: number;
-  @IsNotEmpty()
-  @IsEnum(InvestorPersonalDetailEnum)
-  status: InvestorPersonalDetailEnum;
-  @IsOptional()
-  remarks: string;
 }

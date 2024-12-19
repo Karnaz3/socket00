@@ -38,6 +38,7 @@ export const appDataSourceProviders = [
         return appDataSource;
       } catch (error) {
         Logger.log(error, 'appDataSourceProviders');
+        console.log(error);
         throw new HttpException(error.message, error.status);
       }
     },

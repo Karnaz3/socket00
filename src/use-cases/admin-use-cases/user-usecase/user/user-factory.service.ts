@@ -11,6 +11,14 @@ export class UserFactoryService {
     user.password = createUserDto.password;
     return user;
   }
+  createNewDocUser(createUserDto: UserDto) {
+    const user = new UserModel();
+    user.name = createUserDto.name;
+    user.email = createUserDto.email;
+    user.password = createUserDto.password;
+    user.isAdmin = true;
+    return user;
+  }
 
   updateUser(updateAdminDto: UpdateUserDto) {
     const newUser = new UserModel();

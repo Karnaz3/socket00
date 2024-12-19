@@ -18,6 +18,8 @@ import { PgGenericRepository } from './pg-generic-repository';
 import { PgAdminRepository } from './repositories/admin.repository';
 import { PgIUserRepository } from './repositories/user.repository';
 import { PermissionEntity } from './entities/permission.entity';
+import { RecordEntity } from './entities/record.entity';
+import { AppointmentEntity } from './entities/appointment.entity';
 
 @Injectable()
 export class PgDataServices implements IDataServices, OnApplicationBootstrap {
@@ -27,6 +29,8 @@ export class PgDataServices implements IDataServices, OnApplicationBootstrap {
   chatRoom: PgGenericRepository<ChatRoomEntity>;
   message: PgGenericRepository<MessageEntity>;
   permission: PgGenericRepository<PermissionEntity>;
+  record: PgGenericRepository<RecordEntity>;
+  appointment: PgGenericRepository<AppointmentEntity>;
 
   constructor(
     @Inject(AdminEntity.REPOSITORY)
@@ -51,6 +55,12 @@ export class PgDataServices implements IDataServices, OnApplicationBootstrap {
 
     @Inject(PermissionEntity.REPOSITORY)
     private permissionRepository: Repository<PermissionEntity>,
+
+    @Inject(RecordEntity.REPOSITORY)
+    private recordRepository: Repository<RecordEntity>,
+
+    @Inject(AppointmentEntity.REPOSITORY)
+    private appointmentRepository: Repository<AppointmentEntity>,
   ) {}
 
   onApplicationBootstrap() {
@@ -66,5 +76,9 @@ export class PgDataServices implements IDataServices, OnApplicationBootstrap {
     this.message = new PgGenericRepository(this.cls, this.messageRepository);
     // permission
     this.permission = new PgGenericRepository(this.cls, this.permissionRepository);
+    // record
+    this.record = new PgGenericRepository(this.cls, this.recordRepository);
+    // appointment
+    this.appointment = new PgGenericRepository(this.cls, this.appointmentRepository);
   }
 }
