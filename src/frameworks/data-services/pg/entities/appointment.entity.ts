@@ -12,7 +12,7 @@ export class AppointmentEntity extends BaseEntity {
   })
   user: UsersEntity;
 
-  @ManyToOne(() => UsersEntity, { onDelete: 'CASCADE' })
+  @ManyToOne(() => UsersEntity, { onDelete: 'CASCADE', nullable: true })
   @JoinColumn({
     name: 'doc_id',
   })
@@ -27,4 +27,22 @@ export class AppointmentEntity extends BaseEntity {
     enum: ReportStatusEnum,
   })
   status: ReportStatusEnum;
+
+  @Column({
+    name: 'note',
+    nullable: true,
+  })
+  note: string;
+
+  @Column({
+    name: 'visit_date',
+  })
+  visitDate: Date;
+
+  @Column({
+    name: 'request_by_doc',
+    type: 'boolean',
+    default: false,
+  })
+  requestByDoc: boolean;
 }

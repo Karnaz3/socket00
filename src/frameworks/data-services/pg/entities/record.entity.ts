@@ -6,13 +6,13 @@ import { AppointmentEntity } from './appointment.entity';
 
 @Entity('record')
 export class RecordEntity extends BaseEntity {
-  @ManyToOne(() => UsersEntity, { onDelete: 'CASCADE' })
+  @ManyToOne(() => UsersEntity, { onDelete: 'CASCADE', eager: true })
   @JoinColumn({
     name: 'user_id',
   })
   user: UsersEntity;
 
-  @ManyToOne(() => UsersEntity, { onDelete: 'CASCADE' })
+  @ManyToOne(() => UsersEntity, { onDelete: 'CASCADE', eager: true })
   @JoinColumn({
     name: 'doc_id',
   })
@@ -25,6 +25,7 @@ export class RecordEntity extends BaseEntity {
 
   @Column({
     name: 'solution',
+    nullable: true,
   })
   solution: string;
 
@@ -35,7 +36,7 @@ export class RecordEntity extends BaseEntity {
   })
   status: ReportStatusEnum;
 
-  @ManyToOne(() => AppointmentEntity, { onDelete: 'CASCADE' })
+  @ManyToOne(() => AppointmentEntity, { onDelete: 'CASCADE', nullable: true })
   @JoinColumn({
     name: 'appointment_id',
   })

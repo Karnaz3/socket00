@@ -8,4 +8,7 @@ export class AppointmentModel {
   doc: UserModel;
   records: RecordModel[];
   status: ReportStatusEnum;
+  note: string;
+  visitDate: Date;
+  requestByDoc: boolean;
 }

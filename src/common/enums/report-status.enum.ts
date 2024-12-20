@@ -1,4 +1,5 @@
 export enum ReportStatusEnum {
+  CREATED = 'CREATED',
   PENDING = 'PENDING',
   IN_PROGRESS = 'IN_PROGRESS',
   RESOLVED = 'RESOLVED',

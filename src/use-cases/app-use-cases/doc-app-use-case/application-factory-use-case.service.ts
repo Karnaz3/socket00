@@ -1,0 +1,36 @@
+import { Injectable } from '@nestjs/common';
+import { ReportStatusEnum } from 'src/common/enums/report-status.enum';
+import { CreateApplicationDto } from 'src/core/dtos/application-request/application.dto';
+import { AppointmentModel } from 'src/core/models/appointment.model';
+import { UserModel } from 'src/core/models/user.model';
+
+@Injectable()
+export class AdminApplicationFactoryUseCaseService {
+  constructor() {}
+
+  createApplication(dto: CreateApplicationDto): AppointmentModel {
+    const appointment = new AppointmentModel();
+    if (dto.userId) {
+      const user = new UserModel();
+      user.id = dto.userId;
+      appointment.user = user;
+    }
+    if (dto.docId) {
+      const doc = new UserModel();
+      doc.id = dto.docId;
+      appointment.doc = doc;
+    }
+    if (dto.note) appointment.note = dto.note;
+    if (dto.date) appointment.visitDate = dto.date;
+    appointment.requestByDoc = true;
+    appointment.status = ReportStatusEnum.CREATED;
+    return appointment;
+  }
+
+  updateApplication(model: AppointmentModel, dto): AppointmentModel {
+    if (dto.date) model.visitDate = dto.date;
+    if (dto.status) model.status = dto.status;
+    if (dto.note) model.note = dto.note;
+    return model;
+  }
+}

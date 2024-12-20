@@ -11,7 +11,7 @@ import { RedisService } from 'src/application/redis/redis.service';
 import { MessageDto } from 'src/core/dtos/request/chat.dto';
 import { ChatUseCaseService } from 'src/use-cases/chat-usecase/chat-usecase.service';
 import { MessageUseCaseService } from 'src/use-cases/message-usecase/message-usecase.service';
-import { UserUseCaseService } from 'src/use-cases/user-use-cases/user-usecase.service';
+import { UserUseCaseService } from 'src/use-cases/actors/user-use-cases/user-usecase.service';
 
 @WebSocketGateway({
   namespace: '/message-public-chat', // The namespace

@@ -2,7 +2,7 @@ import { Logger } from '@nestjs/common';
 import { OnGatewayConnection, OnGatewayDisconnect, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Namespace } from 'socket.io';
 import { RedisService } from 'src/application/redis/redis.service';
-import { UserUseCaseService } from 'src/use-cases/user-use-cases/user-usecase.service';
+import { UserUseCaseService } from 'src/use-cases/actors/user-use-cases/user-usecase.service';
 
 @WebSocketGateway({
   namespace: '/user-status',
