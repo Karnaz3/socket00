@@ -67,6 +67,13 @@ export class UserApplicationUseCaseService {
     });
   }
 
+  async getApplicationByDoc() {
+    const user = this.cls.get<IUserClsData>('user');
+    return await this.dataServices.appointment.getAllWithoutPagination({
+      user: { id: user.id },
+      requestByDoc: true,
+    });
+  }
   //let user not remove the application
   //async removeApplication(id: number) {
   //  const application = await this.dataServices.appointment.getOne({ id });

@@ -3,6 +3,7 @@ import { ReportStatusEnum } from 'src/common/enums/report-status.enum';
 import { IDataServices } from 'src/core/abstracts';
 import { CreateRecordtDto } from 'src/core/dtos/records-request/record.dto';
 import { AdminRecordFactoryUseCaseService } from './record-factory-use-case.service';
+import { RecordModel } from 'src/core/models/record.model';
 
 @Injectable()
 export class AdminRecordUseCaseService {
@@ -33,6 +34,11 @@ export class AdminRecordUseCaseService {
     });
     const updatedRecord = this.factoryService.updateReport(record, dto);
     return await this.dataServices.record.update({ id: dto.id }, updatedRecord);
+  }
+
+  async resolveRecord(id: number) {
+    const record = await this.dataServices.record.getOne({ id });
+    return await this.dataServices.record.update(record, { status: ReportStatusEnum.RESOLVED } as RecordModel);
   }
 
   async removeRecord(id: number) {
