@@ -8,11 +8,13 @@ import { AdminApplicationUseCaseService } from 'src/use-cases/app-use-cases/doc-
 export class DocApplicationController {
   constructor(private readonly useCaseService: AdminApplicationUseCaseService) {}
 
+  //when doc creates a application it is for shiftdoc for old in person care
   @Post('application')
   async createApplication(@Body() dto: CreateApplicationDto) {
     return CoreApiResponse.success(await this.useCaseService.createApplication(dto));
   }
 
+  // applications by users
   @Get('applications')
   async getApplications(@Query('status') status: ReportStatusEnum) {
     const data = await this.useCaseService.getApplications({ status });

@@ -20,27 +20,7 @@ export class UserApplicationFactoryUseCaseService {
   }
 
   updateApplication(model: AppointmentModel, dto): AppointmentModel {
-    if (dto.status) model.status = dto.status;
     if (dto.note) model.note = dto.note;
     return model;
   }
-  // update by admin doc
-  //updateApplication(model: AppointmentModel, dto): AppointmentModel {
-  //  if (dto.docId) {
-  //    const doc = new UserModel();
-  //    doc.id = dto.docId;
-  //    model.doc = doc;
-  //  }
-  //  if (dto.date) model.visitDate = dto.date;
-  //  if (dto.status) model.status = dto.status;
-  //  if (dto.note) model.note = dto.note;
-  //  if (dto.records) {
-  //    dto.records.forEach((recordId: number) => {
-  //      const newRecord = new RecordModel();
-  //      newRecord.id = recordId;
-  //      model.records.push(newRecord);
-  //    });
-  //  }
-  //  return model;
-  //}
 }

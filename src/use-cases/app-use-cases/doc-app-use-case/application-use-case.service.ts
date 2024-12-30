@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
+import { ClsService } from 'nestjs-cls';
 import { ReportStatusEnum } from 'src/common/enums/report-status.enum';
+import { AppClsStore, IDocClsData } from 'src/common/interface/app-cls-store.interface';
 import { IDataServices } from 'src/core/abstracts';
 import { CreateApplicationDto, UpdateApplicationDto } from 'src/core/dtos/application-request/application.dto';
 import { CreateRecordtDto } from 'src/core/dtos/records-request/record.dto';
@@ -13,9 +15,13 @@ export class AdminApplicationUseCaseService {
     private dataServices: IDataServices,
     private readonly factoryService: AdminApplicationFactoryUseCaseService,
     private readonly recordFactoryService: AdminRecordFactoryUseCaseService,
+    private readonly cls: ClsService<AppClsStore>,
   ) {}
 
+  //if no id for doc is provided then it is asigned to the creator of the application in case of docs
   async createApplication(dto: CreateApplicationDto) {
+    const doc = this.cls.get<IDocClsData>('doc');
+    if (!dto.docId) dto.docId = doc.id;
     const oldRecords = await this.dataServices.record.getAllWithoutPagination({
       user: { id: dto.userId },
     });
@@ -23,10 +29,31 @@ export class AdminApplicationUseCaseService {
     return await this.dataServices.appointment.create(application);
   }
 
+  async getAllAssignedApplications() {
+    return await this.dataServices.appointment.getAllWithoutPagination({
+      requestByDoc: true,
+    });
+  }
+
+  async getIndividualAssignedApplication() {
+    const doc = this.cls.get<IDocClsData>('doc');
+    return await this.dataServices.appointment.getOne({
+      doc: { id: doc.id },
+      requestByDoc: true,
+    });
+  }
+
   async getApplications(query: { status: ReportStatusEnum }) {
-    let condition = {};
+    interface Condition {
+      requestByDoc: boolean;
+      status?: ReportStatusEnum;
+    }
+    let condition: Condition = {
+      requestByDoc: false,
+    };
     if (query.status) {
       condition = {
+        ...condition,
         status: query.status,
       };
     }
@@ -51,7 +78,7 @@ export class AdminApplicationUseCaseService {
       {
         userId: application.user.id,
         docId: application.doc.id,
-        problem: application.note || 'to be filled by admin',
+        problem: application.note ? application.note : 'to be filled by admin',
         solution: 'to be filled by admin',
         status: ReportStatusEnum.IN_PROGRESS,
       } as CreateRecordtDto,

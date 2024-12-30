@@ -1,9 +1,10 @@
 import { IsNotEmpty, IsOptional } from 'class-validator';
+import { ReportStatusEnum } from 'src/common/enums/report-status.enum';
 
 export class CreateApplicationDto {
   @IsNotEmpty()
   userId: number;
-  @IsNotEmpty()
+  @IsOptional()
   docId: number;
   @IsNotEmpty()
   note: string;
@@ -15,19 +16,21 @@ export class UpdateApplicationDto {
   @IsNotEmpty()
   id: number;
   @IsOptional()
+  docId: number;
+  @IsOptional()
   note: string;
   @IsOptional()
   date: Date;
   @IsOptional()
-  status: string;
+  status: ReportStatusEnum;
+  @IsOptional()
+  records: number[];
 }
 export class UpdateApplicationUserDto {
   @IsNotEmpty()
   id: number;
   @IsOptional()
   note: string;
-  @IsOptional()
-  status: string;
 }
 
 export class CreateUserApplicationDto {

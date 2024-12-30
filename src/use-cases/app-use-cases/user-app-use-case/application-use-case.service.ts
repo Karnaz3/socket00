@@ -5,6 +5,7 @@ import { AppClsStore, IUserClsData } from 'src/common/interface/app-cls-store.in
 import { IDataServices } from 'src/core/abstracts';
 import { CreateUserApplicationDto, UpdateApplicationUserDto } from 'src/core/dtos/application-request/application.dto';
 import { UserApplicationFactoryUseCaseService } from './application-factory-use-case.service';
+import { AppointmentModel } from 'src/core/models/appointment.model';
 
 @Injectable()
 export class UserApplicationUseCaseService {
@@ -49,6 +50,21 @@ export class UserApplicationUseCaseService {
     });
     const updatedApplication = this.factoryService.updateApplication(application, dto);
     return await this.dataServices.appointment.update({ id: dto.id }, updatedApplication);
+  }
+
+  async cancelApplication(id: number) {
+    const application = await this.dataServices.appointment.getOne({ id });
+    return await this.dataServices.appointment.update(application, {
+      status: ReportStatusEnum.CANCELLED,
+    } as AppointmentModel);
+  }
+
+  async getCancelledApplications() {
+    const user = this.cls.get<IUserClsData>('user');
+    return await this.dataServices.appointment.getAllWithoutPagination({
+      user: { id: user.id },
+      status: ReportStatusEnum.CANCELLED,
+    });
   }
 
   //let user not remove the application

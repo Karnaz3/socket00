@@ -51,7 +51,7 @@ export class AdminGuard implements CanActivate {
       if (!payload) {
         throw new AppUnauthorizedException('Invalid token. Please login again.');
       }
-      const doc = await this.dataServices.user.getOneOrNull({ email: payload.sub });
+      const doc = await this.dataServices.user.getOneOrNull({ email: payload.sub, isAdmin: true });
       if (!doc) {
         throw new AppUnauthorizedException('Invalid token. Please login again.');
       }

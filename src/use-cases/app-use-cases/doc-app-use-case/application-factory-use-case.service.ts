@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ReportStatusEnum } from 'src/common/enums/report-status.enum';
-import { CreateApplicationDto } from 'src/core/dtos/application-request/application.dto';
+import { CreateApplicationDto, UpdateApplicationDto } from 'src/core/dtos/application-request/application.dto';
 import { AppointmentModel } from 'src/core/models/appointment.model';
 import { RecordModel } from 'src/core/models/record.model';
 import { UserModel } from 'src/core/models/user.model';
@@ -31,7 +31,7 @@ export class AdminApplicationFactoryUseCaseService {
     return appointment;
   }
 
-  updateApplication(model: AppointmentModel, dto): AppointmentModel {
+  updateApplication(model: AppointmentModel, dto: UpdateApplicationDto): AppointmentModel {
     if (dto.docId) {
       const doc = new UserModel();
       doc.id = dto.docId;
@@ -49,10 +49,4 @@ export class AdminApplicationFactoryUseCaseService {
     }
     return model;
   }
-  //updateApplication(model: AppointmentModel, dto): AppointmentModel {
-  //  if (dto.date) model.visitDate = dto.date;
-  //  if (dto.status) model.status = dto.status;
-  //  if (dto.note) model.note = dto.note;
-  //  return model;
-  //}
 }
