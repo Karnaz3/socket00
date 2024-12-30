@@ -9,8 +9,11 @@ import { UserModel } from 'src/core/models/user.model';
 export class AdminApplicationFactoryUseCaseService {
   constructor() {}
 
-  createApplication(dto: CreateApplicationDto): AppointmentModel {
+  createApplication(dto: CreateApplicationDto, records?: RecordModel[]): AppointmentModel {
     const appointment = new AppointmentModel();
+    if (records) {
+      appointment.records = records;
+    }
     if (dto.userId) {
       const user = new UserModel();
       user.id = dto.userId;

@@ -9,7 +9,7 @@ import { UserModel } from 'src/core/models/user.model';
 export class AdminRecordFactoryUseCaseService {
   constructor() {}
 
-  createReport(dto: CreateRecordtDto): RecordModel {
+  createReport(dto: CreateRecordtDto, appoint?: AppointmentModel): RecordModel {
     const record = new RecordModel();
     if (dto.userId) {
       const user = new UserModel();
@@ -28,6 +28,7 @@ export class AdminRecordFactoryUseCaseService {
       appointment.id = dto.appointmentId;
       record.appointment = appointment;
     }
+    if (appoint) record.appointment = appoint;
     record.status = ReportStatusEnum.RESOLVED;
     return record;
   }
