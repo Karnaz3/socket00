@@ -6,19 +6,19 @@ import { UsersEntity } from './users.entity';
 
 @Entity('appointment')
 export class AppointmentEntity extends BaseEntity {
-  @ManyToOne(() => UsersEntity, { onDelete: 'CASCADE' })
+  @ManyToOne(() => UsersEntity, { onDelete: 'CASCADE', eager: true })
   @JoinColumn({
     name: 'user_id',
   })
   user: UsersEntity;
 
-  @ManyToOne(() => UsersEntity, { onDelete: 'CASCADE', nullable: true })
+  @ManyToOne(() => UsersEntity, { onDelete: 'CASCADE', nullable: true, eager: true })
   @JoinColumn({
     name: 'doc_id',
   })
   doc: UsersEntity;
 
-  @OneToMany(() => RecordEntity, (record) => record.appointment)
+  @OneToMany(() => RecordEntity, (record) => record.appointment, { eager: true })
   records: RecordEntity[];
 
   @Column({

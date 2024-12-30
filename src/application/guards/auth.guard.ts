@@ -7,7 +7,8 @@ import { IJwtService } from 'src/core/abstracts/adapters/jwt.interface';
 import { IS_ADMIN_KEY } from '../decorators/admin.decorator';
 import { IS_PUBLIC_KEY } from '../decorators/public.decorator';
 import AppUnauthorizedException from '../exception/app-unauthorized.exception';
-import { IS_USER_KEY } from '../decorators/investor.decorator';
+import { IS_USER_KEY } from '../decorators/user.decorator';
+import { IS_DOC_KEY } from '../decorators/doc-user.decorator';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -40,17 +41,25 @@ export class AuthGuard implements CanActivate {
 
     const isUser =
       this._reflector.getAllAndOverride<boolean>(IS_USER_KEY, [context.getHandler(), context.getClass()]) ||
-      requestUrl.startsWith('/api/chat')
+      requestUrl.startsWith('/api/user')
+        ? true
+        : false;
+
+    const isDoc =
+      this._reflector.getAllAndOverride<boolean>(IS_DOC_KEY, [context.getHandler(), context.getClass()]) ||
+      requestUrl.startsWith('/api/doc')
         ? true
         : false;
 
     this.cls.set('isPublic', isPublic);
     this.cls.set('isAdmin', isAdmin);
     this.cls.set('isUser', isUser);
+    this.cls.set('isDoc', isDoc);
+
     if (isPublic) {
       return true;
     }
-    if (isAdmin || isUser) {
+    if (isAdmin || isUser || isDoc) {
       const token = this.extractTokenFromHeader(request);
       if (!token || token === 'null' || token === 'undefined') {
         throw new AppUnauthorizedException('Invalid token. Please login again.');

@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { IDataServices } from 'src/core/abstracts';
+import { ClsService } from 'nestjs-cls';
 import { ReportStatusEnum } from 'src/common/enums/report-status.enum';
-import { CreateApplicationDto, UpdateApplicationDto } from 'src/core/dtos/application-request/application.dto';
+import { AppClsStore, IUserClsData } from 'src/common/interface/app-cls-store.interface';
+import { IDataServices } from 'src/core/abstracts';
+import { CreateUserApplicationDto, UpdateApplicationUserDto } from 'src/core/dtos/application-request/application.dto';
 import { UserApplicationFactoryUseCaseService } from './application-factory-use-case.service';
 
 @Injectable()
@@ -9,24 +11,39 @@ export class UserApplicationUseCaseService {
   constructor(
     private dataServices: IDataServices,
     private readonly factoryService: UserApplicationFactoryUseCaseService,
+    private readonly cls: ClsService<AppClsStore>,
   ) {}
 
-  async createApplication(dto: CreateApplicationDto) {
-    const application = this.factoryService.createApplication(dto);
+  async createApplication(dto: CreateUserApplicationDto) {
+    const userDetails = this.cls.get<IUserClsData>('user');
+    const user = await this.dataServices.user.getOne({ id: userDetails.id });
+    const application = this.factoryService.createApplication(dto, user);
     return await this.dataServices.appointment.create(application);
   }
 
   async getApplications(query: { status: ReportStatusEnum }) {
-    let condition = {};
+    const user = this.cls.get<IUserClsData>('user');
+
+    interface Condition {
+      user: { id: number };
+      status?: ReportStatusEnum;
+    }
+
+    let condition: Condition = {
+      user: { id: user.id },
+    };
+
     if (query.status) {
       condition = {
+        ...condition,
         status: query.status,
       };
     }
+
     return await this.dataServices.appointment.getAllWithoutPagination(condition);
   }
 
-  async updateApplication(dto: UpdateApplicationDto) {
+  async updateApplication(dto: UpdateApplicationUserDto) {
     const application = await this.dataServices.appointment.getOne({
       id: dto.id,
     });
@@ -34,8 +51,9 @@ export class UserApplicationUseCaseService {
     return await this.dataServices.appointment.update({ id: dto.id }, updatedApplication);
   }
 
-  async removeApplication(id: number) {
-    const application = await this.dataServices.appointment.getOne({ id });
-    return await this.dataServices.appointment.remove({ id: application.id });
-  }
+  //let user not remove the application
+  //async removeApplication(id: number) {
+  //  const application = await this.dataServices.appointment.getOne({ id });
+  //  return await this.dataServices.appointment.remove({ id: application.id });
+  //}
 }

@@ -4,11 +4,11 @@ import { DataServicesModule } from 'src/services/data-services/data-services.mod
 import { JwtServiceModule } from 'src/services/jwt/jwt.module';
 import { UserAuthUseCaseService } from './user-auth-use-case.service';
 import { UserFactoryService } from './user-factory.service';
-import { IpoInvestorUseCaseService } from './user-use-case.service';
+import { UserUseCaseService } from './user-use-case.service';
 
 @Module({
   imports: [DataServicesModule, BcryptModule, JwtServiceModule],
-  providers: [UserAuthUseCaseService, UserFactoryService, IpoInvestorUseCaseService],
-  exports: [UserAuthUseCaseService, UserFactoryService, IpoInvestorUseCaseService],
+  providers: [UserAuthUseCaseService, UserFactoryService, UserUseCaseService],
+  exports: [UserAuthUseCaseService, UserFactoryService, UserUseCaseService],
 })
 export class UserUseCaseModule {}

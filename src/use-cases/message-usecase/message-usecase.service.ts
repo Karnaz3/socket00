@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ClsService } from 'nestjs-cls';
 import AppException from 'src/application/exception/app.exception';
-import { AppClsStore, IInvestorClsData } from 'src/common/interface/app-cls-store.interface';
+import { AppClsStore, IUserClsData } from 'src/common/interface/app-cls-store.interface';
 import { IDataServices } from 'src/core/abstracts';
 import { MessageDto } from 'src/core/dtos/request/chat.dto';
 import { ChatUseCaseService } from '../chat-usecase/chat-usecase.service';
@@ -17,7 +17,7 @@ export class MessageUseCaseService {
   ) {}
 
   async createMessage(dto: MessageDto) {
-    const loggedInUser = this.cls.get<IInvestorClsData>('investorUser');
+    const loggedInUser = this.cls.get<IUserClsData>('user');
     const sender = await this.dataService.user.getOne({ id: loggedInUser.id });
     const message = this.messageServiceUseCase.createMessageChat(dto);
 
@@ -44,7 +44,7 @@ export class MessageUseCaseService {
 
   //get private messages
   async getMessages(chatRoomId: number) {
-    const loggedInUser = this.cls.get<IInvestorClsData>('investorUser');
+    const loggedInUser = this.cls.get<IUserClsData>('user');
     if (!loggedInUser) throw new AppException({}, 'Unauthorized access', 401);
     await this.checkIfUserIsInRoom(chatRoomId, loggedInUser.id);
     return await this.dataService.message.getAllWithoutPagination({ chatRoom: { id: chatRoomId } }, { sender: true });

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ClsService } from 'nestjs-cls';
 import AppException from 'src/application/exception/app.exception';
-import { AppClsStore, IInvestorClsData } from 'src/common/interface/app-cls-store.interface';
+import { AppClsStore, IUserClsData } from 'src/common/interface/app-cls-store.interface';
 import { IDataServices } from 'src/core/abstracts';
 import { ChatRoomDto } from 'src/core/dtos/request/chat.dto';
 import { ChatRoomModel } from 'src/core/models/chat-room.model.ts';
@@ -30,7 +30,7 @@ export class ChatUseCaseService {
     }
 
     // sender and receiver portion (for user section issues)
-    const sender = this.cls.get<IInvestorClsData>('investorUser');
+    const sender = this.cls.get<IUserClsData>('user');
     const authenticatedUser = await this.dataService.user.getOne({ id: sender.id });
     const receiver = await this.dataService.user.getOne({ id: dto.receiver });
     // room creation and check for existing room (for room related issues)
@@ -41,14 +41,14 @@ export class ChatUseCaseService {
   }
 
   async getCreatedChatRooms() {
-    const loggedInUser = this.cls.get<IInvestorClsData>('investorUser');
+    const loggedInUser = this.cls.get<IUserClsData>('user');
     return await this.dataService.chatRoom.getAllWithoutPagination({ user: { id: loggedInUser.id } });
   }
 
   async getParticipantsSameRoom(chatRoomId: number) {
     //check if logged user is present in the room that is being accessed
     let presentUser: boolean = false;
-    const loggedInUser = this.cls.get<IInvestorClsData>('investorUser');
+    const loggedInUser = this.cls.get<IUserClsData>('user');
     if (!loggedInUser) throw new AppException({}, 'Unauthorized access', 401);
     const room = await this.dataService.chatRoom.getOne({ id: chatRoomId });
     room.user.forEach((user) => {

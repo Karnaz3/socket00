@@ -1,21 +1,21 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { ClsService } from 'nestjs-cls';
 import { CoreApiResponse } from 'src/application/api/core-api-response';
-import { User } from 'src/application/decorators/investor.decorator';
+import { User } from 'src/application/decorators/user.decorator';
 import { Public } from 'src/application/decorators/public.decorator';
-import { AppClsStore, IInvestorClsData } from 'src/common/interface/app-cls-store.interface';
+import { AppClsStore, IUserClsData } from 'src/common/interface/app-cls-store.interface';
 import { UserDto } from 'src/core/dtos/request/user.dto';
 
 import { SigninDto, SigninWithGoogleDto } from 'src/core/dtos/request/signin.dto';
 import { UserAuthUseCaseService } from 'src/use-cases/admin-use-cases/user-usecase/user/user-auth-use-case.service';
-import { IpoInvestorUseCaseService } from 'src/use-cases/admin-use-cases/user-usecase/user/user-use-case.service';
+import { UserUseCaseService } from 'src/use-cases/admin-use-cases/user-usecase/user/user-use-case.service';
 import { Admin } from 'src/application/decorators/admin.decorator';
 
 @Controller('/users')
 export class UserAuthController {
   constructor(
     private investorAuthUseCaseService: UserAuthUseCaseService,
-    private investorUseCaseService: IpoInvestorUseCaseService,
+    private investorUseCaseService: UserUseCaseService,
     private readonly cls: ClsService<AppClsStore>,
   ) {}
 
@@ -53,8 +53,8 @@ export class UserAuthController {
   @User()
   @Get('/me')
   async me() {
-    console.log(this.cls.get<IInvestorClsData>('investorUser'));
-    return CoreApiResponse.success(this.cls.get<IInvestorClsData>('investorUser'));
+    console.log(this.cls.get<IUserClsData>('user'));
+    return CoreApiResponse.success(this.cls.get<IUserClsData>('user'));
   }
 }
 

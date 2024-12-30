@@ -7,7 +7,7 @@ import { UserModel } from 'src/core/models/user.model';
 import { UserFactoryService } from './user-factory.service';
 
 @Injectable()
-export class IpoInvestorUseCaseService {
+export class UserUseCaseService {
   constructor(
     private dataServices: IDataServices,
     private userFactory: UserFactoryService,

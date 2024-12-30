@@ -21,11 +21,16 @@ export class UpdateApplicationDto {
   @IsOptional()
   status: string;
 }
+export class UpdateApplicationUserDto {
+  @IsNotEmpty()
+  id: number;
+  @IsOptional()
+  note: string;
+  @IsOptional()
+  status: string;
+}
 
 export class CreateUserApplicationDto {
   @IsNotEmpty()
-  userId: number;
-
-  @IsOptional()
   note: string;
 }

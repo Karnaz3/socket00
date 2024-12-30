@@ -18,6 +18,8 @@ export class AdminGuard implements CanActivate {
     }
     const isAdmin = this.cls.get<boolean>('isAdmin');
     const isUser = this.cls.get<boolean>('isUser');
+    const isDoc = this.cls.get<boolean>('isDoc');
+
     if (isAdmin) {
       const payload = this.cls.get<any>('payload');
       if (!payload) {
@@ -30,20 +32,34 @@ export class AdminGuard implements CanActivate {
       this.cls.set('adminUser', admin);
     } else if (isUser) {
       const payload = this.cls.get<any>('payload');
+
       if (!payload) {
         throw new AppUnauthorizedException('Invalid token. Please login again.');
       }
-      const investor = await this.dataServices.user.getOneOrNull({ email: payload.sub });
-      if (!investor) {
+      const user = await this.dataServices.user.getOneOrNull({ email: payload.sub });
+      if (!user) {
         throw new AppUnauthorizedException('Invalid token. Please login again.');
       }
-      this.cls.set('investorUser', {
-        id: investor.id,
-        email: investor.email,
-        password: investor.password,
+      this.cls.set('user', {
+        id: user.id,
+        email: user.email,
+        password: user.password,
       });
+      return true;
+    } else if (isDoc) {
+      const payload = this.cls.get<any>('payload');
+      if (!payload) {
+        throw new AppUnauthorizedException('Invalid token. Please login again.');
+      }
+      const doc = await this.dataServices.user.getOneOrNull({ email: payload.sub });
+      if (!doc) {
+        throw new AppUnauthorizedException('Invalid token. Please login again.');
+      }
+      this.cls.set('doc', {
+        id: doc.id,
+        email: doc.email,
+      });
+      return true;
     }
-
-    return true;
   }
 }

@@ -6,6 +6,8 @@ import { DocApplicationControllerModule } from './doc-controller/application-con
 import { DocRecordControllerModule } from './doc-controller/record-controller/record-controller.module';
 import { FileUploadControllerModule } from './file-upload/file-upload.module';
 import { UserControllerModule } from './user-controller/user-controller.module';
+import { UserApplicationControllerModule } from './user-controller/application-controller/user-application.module';
+import { UserRecordControllerModule } from './user-controller/record-controller/user-record.module';
 
 const routes: Routes = [
   {
@@ -20,8 +22,8 @@ const routes: Routes = [
         children: [DocApplicationControllerModule, DocRecordControllerModule],
       },
       {
-        path: '/users',
-        children: [UserControllerModule],
+        path: '/user',
+        children: [UserControllerModule, UserApplicationControllerModule, UserRecordControllerModule],
       },
       {
         path: '/chat',
