@@ -23,8 +23,6 @@ export class UpdateApplicationDto {
   date: Date;
   @IsOptional()
   status: ReportStatusEnum;
-  @IsOptional()
-  records: number[];
 }
 export class UpdateApplicationUserDto {
   @IsNotEmpty()

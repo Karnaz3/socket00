@@ -18,7 +18,10 @@ export class AppointmentEntity extends BaseEntity {
   })
   doc: UsersEntity;
 
-  @OneToMany(() => RecordEntity, (record) => record.appointment, { eager: true })
+  @OneToMany(() => RecordEntity, (record) => record.appointment, {
+    cascade: ['insert', 'update'],
+    nullable: true,
+  })
   records: RecordEntity[];
 
   @Column({
@@ -36,6 +39,7 @@ export class AppointmentEntity extends BaseEntity {
 
   @Column({
     name: 'visit_date',
+    nullable: true,
   })
   visitDate: Date;
 

@@ -31,7 +31,8 @@ export class AdminApplicationFactoryUseCaseService {
     return appointment;
   }
 
-  updateApplication(model: AppointmentModel, dto: UpdateApplicationDto): AppointmentModel {
+  updateApplication(dto: UpdateApplicationDto): AppointmentModel {
+    const model = new AppointmentModel();
     if (dto.docId) {
       const doc = new UserModel();
       doc.id = dto.docId;
@@ -40,13 +41,6 @@ export class AdminApplicationFactoryUseCaseService {
     if (dto.date) model.visitDate = dto.date;
     if (dto.status) model.status = dto.status;
     if (dto.note) model.note = dto.note;
-    if (dto.records) {
-      dto.records.forEach((recordId: number) => {
-        const newRecord = new RecordModel();
-        newRecord.id = recordId;
-        model.records.push(newRecord);
-      });
-    }
     return model;
   }
 }

@@ -61,10 +61,7 @@ export class AdminApplicationUseCaseService {
   }
 
   async updateApplication(dto: UpdateApplicationDto) {
-    const application = await this.dataServices.appointment.getOne({
-      id: dto.id,
-    });
-    const updatedApplication = this.factoryService.updateApplication(application, dto);
+    const updatedApplication = this.factoryService.updateApplication(dto);
     return await this.dataServices.appointment.update({ id: dto.id }, updatedApplication);
   }
 

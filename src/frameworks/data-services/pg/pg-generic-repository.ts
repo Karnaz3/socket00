@@ -108,7 +108,7 @@ export class PgGenericRepository<T> implements IGenericRepository<T> {
         throw new AppNotFoundException(this._repository.metadata.targetName.replace('Entity', '') + ' not found', 404);
       }
       await this._repository.update(condition, item);
-      return this._repository.findOneBy(condition);
+      return this._repository.findOne({ where: condition });
     });
   }
   async updateMany(condition: NonNullable<unknown>, item: any) {

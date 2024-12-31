@@ -36,7 +36,10 @@ export class RecordEntity extends BaseEntity {
   })
   status: ReportStatusEnum;
 
-  @ManyToOne(() => AppointmentEntity, { onDelete: 'CASCADE', nullable: true })
+  @ManyToOne(() => AppointmentEntity, (appoint) => appoint.records, {
+    onDelete: 'CASCADE',
+    nullable: true,
+  })
   @JoinColumn({
     name: 'appointment_id',
   })
