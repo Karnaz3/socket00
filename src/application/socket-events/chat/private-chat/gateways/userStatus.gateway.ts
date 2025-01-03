@@ -23,7 +23,7 @@ export class UserStatusGateway implements OnGatewayConnection, OnGatewayDisconne
       this.logger.log(`User status connected: ${client.id}, User ID: ${userId}`);
 
       // Mark the user as online
-      await this.userStatusService.setUserOnline(userId);
+      await this.userStatusService.setUserOnline();
       await this.redisService.setUserOnline(userId);
 
       // Notify others that the user is online
@@ -40,7 +40,7 @@ export class UserStatusGateway implements OnGatewayConnection, OnGatewayDisconne
       this.logger.log(`Client disconnected: ${client.id}, User ID: ${userId}`);
 
       // Mark the user as offline
-      await this.userStatusService.setUserOffLine(userId);
+      await this.userStatusService.setUserOffLine();
       await this.redisService.setUserOffline(userId);
 
       // Notify others that the user is offline

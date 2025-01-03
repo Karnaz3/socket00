@@ -30,6 +30,7 @@ export class AdminGuard implements CanActivate {
         throw new AppUnauthorizedException('Invalid token. Please login again.');
       }
       this.cls.set('adminUser', admin);
+      return true;
     } else if (isUser) {
       const payload = this.cls.get<any>('payload');
 

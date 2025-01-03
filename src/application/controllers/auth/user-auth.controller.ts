@@ -1,15 +1,15 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { ClsService } from 'nestjs-cls';
 import { CoreApiResponse } from 'src/application/api/core-api-response';
-import { User } from 'src/application/decorators/user.decorator';
 import { Public } from 'src/application/decorators/public.decorator';
+import { User } from 'src/application/decorators/user.decorator';
 import { AppClsStore, IUserClsData } from 'src/common/interface/app-cls-store.interface';
 import { UserDto } from 'src/core/dtos/request/user.dto';
 
+import { Admin } from 'src/application/decorators/admin.decorator';
 import { SigninDto, SigninWithGoogleDto } from 'src/core/dtos/request/signin.dto';
 import { UserAuthUseCaseService } from 'src/use-cases/admin-use-cases/user-usecase/user/user-auth-use-case.service';
 import { UserUseCaseService } from 'src/use-cases/admin-use-cases/user-usecase/user/user-use-case.service';
-import { Admin } from 'src/application/decorators/admin.decorator';
 
 @Controller('/users')
 export class UserAuthController {
@@ -30,6 +30,7 @@ export class UserAuthController {
   async signup(@Body() signinDto: UserDto) {
     return CoreApiResponse.success(await this.investorUseCaseService.createUser(signinDto), 200, 'Signup successful');
   }
+
   @Admin()
   @Post('doc/signup')
   async docSignup(@Body() signinDto: UserDto) {

@@ -35,7 +35,7 @@ export class PublicChatGateway implements OnGatewayConnection, OnGatewayDisconne
 
       // Mark the user as online in the database and Redis
       try {
-        await this.userStatusService.setUserOnline(userId); // Update database
+        await this.userStatusService.setUserOnline(); // Update database
         await this.redisService.setUserOnline(userId); // Update Redis
 
         // Emit the user online event to inform other clients
@@ -56,7 +56,7 @@ export class PublicChatGateway implements OnGatewayConnection, OnGatewayDisconne
 
       // Mark the user as offline in the database and Redis
       try {
-        await this.userStatusService.setUserOffLine(userId); // Update database
+        await this.userStatusService.setUserOffLine(); // Update database
         await this.redisService.setUserOffline(userId); // Update Redis
 
         // Emit the user offline event to inform other clients

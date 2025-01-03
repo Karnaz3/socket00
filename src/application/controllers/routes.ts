@@ -8,6 +8,8 @@ import { FileUploadControllerModule } from './file-upload/file-upload.module';
 import { UserControllerModule } from './user-controller/user-controller.module';
 import { UserApplicationControllerModule } from './user-controller/application-controller/user-application.module';
 import { UserRecordControllerModule } from './user-controller/record-controller/user-record.module';
+import { GeneralDocControllerModule } from './doc-controller/general-controller/general.module';
+import { GeneralUserControllerModule } from './user-controller/general-controller/general.module';
 
 const routes: Routes = [
   {
@@ -19,11 +21,16 @@ const routes: Routes = [
       },
       {
         path: '/doc',
-        children: [DocApplicationControllerModule, DocRecordControllerModule],
+        children: [DocApplicationControllerModule, DocRecordControllerModule, GeneralDocControllerModule],
       },
       {
         path: '/user',
-        children: [UserControllerModule, UserApplicationControllerModule, UserRecordControllerModule],
+        children: [
+          UserControllerModule,
+          UserApplicationControllerModule,
+          UserRecordControllerModule,
+          GeneralUserControllerModule,
+        ],
       },
       {
         path: '/chat',
