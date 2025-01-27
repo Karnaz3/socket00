@@ -2,7 +2,8 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationException } from './application/exception/validation.exception';
-import { SocketIOAdapter } from './application/socket-events/socket-io.adapter';
+import { SocketIOAdapter } from './application/socket/socket-io.adapter';
+// import { SocketIOAdapter } from './application/socket-events/socket-io.adapter';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const port = process.env.PORT || 3000;

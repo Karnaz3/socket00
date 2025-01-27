@@ -7,7 +7,7 @@ services:
     env_file:
       - .env
     ports:
-      - 5434:5432
+      - 5432:5432
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
@@ -18,25 +18,25 @@ services:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: admin
     ports:
-      - 5052:80
+      - 5050:80
     volumes:
       - pgadmin-data:/var/lib/pgadmin
-  redis:
-    image: redis:7
-    restart: always
-    ports:
-      - 6379:6379
-    volumes:
-      - redis-data:/data
-  redis-insight:
-    image: redis/redisinsight:latest
-    restart: always
-    ports:
-      - "5540:5540"
-    volumes:
-      - redis-insight:/data
+  # redis:
+  #   image: redis:7
+  #   restart: always
+  #   ports:
+  #     - 6379:6379
+  #   volumes:
+  #     - redis-data:/data
+  # redis-insight:
+  #   image: redis/redisinsight:latest
+  #   restart: always
+  #   ports:
+  #     - "5540:5540"
+  #   volumes:
+  #     - redis-insight:/data
 volumes:
-  redis-insight:
+  # redis-insight:
+  # redis-data:
   postgres-data:
-  redis-data:
   pgadmin-data:

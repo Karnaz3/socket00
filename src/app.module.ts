@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, RouterModule } from '@nestjs/core';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { ServeStaticModule } from '@nestjs/serve-static';
 import { ClsGuard } from 'nestjs-cls';
+import { join } from 'path';
 import { EnvironmentConfigModule } from './application/config/environment-config.module';
 import { ControllerModule } from './application/controllers/controller.module';
 import routes from './application/controllers/routes';
@@ -10,13 +12,11 @@ import { AdminGuard } from './application/guards/admin.guard';
 import { AuthGuard } from './application/guards/auth.guard';
 import { HttpLoggingInterceptor } from './application/interceptors/http-logging.interceptor';
 import { ResponseInterceptor } from './application/interceptors/response.interceptor';
+// import { SocketEventModule } from './application/socket-events/socket-event.module';
+import { AppointmentChatModule } from './application/socket/appointment/appointment.module';
 import { ClsServiceModule } from './services/cls-store/cls-store.module';
 import { DataServicesModule } from './services/data-services/data-services.module';
 import { JwtServiceModule } from './services/jwt/jwt.module';
-import { ServeStaticModule } from '@nestjs/serve-static';
-import { join } from 'path';
-import { SocketEventModule } from './application/socket-events/socket-event.module';
-import { RedisModule } from './application/redis/redis.module';
 @Module({
   imports: [
     ClsServiceModule,
@@ -25,10 +25,10 @@ import { RedisModule } from './application/redis/redis.module';
     DataServicesModule,
 
     //module for socket
-    SocketEventModule,
-    //redis module
-    RedisModule,
-
+    // SocketEventModule,
+    // //redis module
+    // RedisModule,
+    AppointmentChatModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'uploads'),
       serveRoot: '/uploads',

@@ -1,3 +1,4 @@
+import { AppointmentModel } from './appointment.model';
 import { MessageModel } from './message.model';
 import { UserModel } from './user.model';
 // import { ParticipantsModel } from './participants.model';
@@ -8,4 +9,5 @@ export class ChatRoomModel {
   isPrivate: boolean;
   user: UserModel[];
   message: MessageModel[];
+  appointment: AppointmentModel;
 }

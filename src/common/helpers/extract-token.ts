@@ -24,6 +24,6 @@ export function extractTokenFromHeader(socket: Socket): string | undefined {
 }
 
 // function to extract query params from socket
-export function extractQueryParams(socket: Socket): { userId: string } {
-  return socket.handshake.query as { userId: string };
+export function extractQueryParams(socket: Socket): { appointment: string } {
+  return socket.handshake.query as { appointment: string };
 }

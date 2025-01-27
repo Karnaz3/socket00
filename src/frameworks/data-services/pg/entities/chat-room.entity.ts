@@ -1,4 +1,5 @@
-import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, OneToMany, OneToOne, Unique } from 'typeorm';
+import { AppointmentEntity } from './appointment.entity';
 import { BaseEntity } from './base.entity';
 import { MessageEntity } from './message.entity';
 import { UsersEntity } from './users.entity';
@@ -32,4 +33,7 @@ export class ChatRoomEntity extends BaseEntity {
 
   @OneToMany(() => MessageEntity, (message) => message.chatRoom, { eager: true })
   message: MessageEntity[];
+
+  @OneToOne(() => AppointmentEntity)
+  appointment: AppointmentEntity;
 }
