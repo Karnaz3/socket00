@@ -20,7 +20,7 @@ export class AppointmentChatGateway implements OnGatewayConnection, OnGatewayDis
   private readonly logger = new Logger(AppointmentChatGateway.name);
 
   constructor() {}
-  handleDisconnect(client: any) { 
+  handleDisconnect(client: any) {
     const userId = client.jwtPayload?.id;
     if (userId) {
       this.logger.log(`User disconnected: ${client.id}`);
@@ -37,7 +37,13 @@ export class AppointmentChatGateway implements OnGatewayConnection, OnGatewayDis
 
   @SubscribeMessage(AppointmentEventConstant.message)
   async handleMessage(client: WsWithAuth, payload: MessageDto) {
-    // create the message and save it to db and send it to the appointment room
-    this.namespace.to(client.authPayload.appointment.id.toString()).emit(AppointmentEventConstant.message, payload);
+    // const message = await this.dataservice.message.create({
+    //   body: payload.content,
+    //   sender: client.authPayload.user,
+    // });
+
+    this.namespace.to(client.authPayload.appointment.id.toString()).emit(AppointmentEventConstant.message, {
+      message: 'hello',
+    });
   }
 }
