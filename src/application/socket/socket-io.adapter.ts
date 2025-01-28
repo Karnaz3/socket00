@@ -21,7 +21,7 @@ export class SocketIOAdapter extends IoAdapter {
     };
 
     const server: Server = super.createIOServer(port, { ...options, cors });
-
+// http://localhost:8080/appointment?appointment=123
     server.of(NamespaceConstants.appointment).use(createAuthMiddleware(jwtService, dataServices));
 
     return server;

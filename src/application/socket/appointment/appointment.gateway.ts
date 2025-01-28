@@ -37,7 +37,7 @@ export class AppointmentChatGateway implements OnGatewayConnection, OnGatewayDis
 
   @SubscribeMessage(AppointmentEventConstant.message)
   async handleMessage(client: WsWithAuth, payload: MessageDto) {
-    // create the message and send it to the appointment room
+    // create the message and save it to db and send it to the appointment room
     this.namespace.to(client.authPayload.appointment.id.toString()).emit(AppointmentEventConstant.message, payload);
   }
 }
