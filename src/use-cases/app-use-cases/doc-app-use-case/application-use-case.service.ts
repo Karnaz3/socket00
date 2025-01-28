@@ -66,9 +66,9 @@ export class AdminApplicationUseCaseService {
   }
 
   //finishing application refers to closing of the application and creating a report only status changed
-  async finishApplication(id: number) {
+  async finishApplication(appointmentId: number) {
     const application = await this.dataServices.appointment.getOne({
-      id: id,
+      id: appointmentId,
     });
     await this.dataServices.appointment.update(application, { status: ReportStatusEnum.RESOLVED } as AppointmentModel);
     const record = this.recordFactoryService.createReport(

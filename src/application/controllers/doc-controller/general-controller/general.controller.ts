@@ -18,4 +18,8 @@ export class GeneralDocController {
   async getAllUsers() {
     return CoreApiResponse.success(await this.useCaseService.getAllDocUsers());
   }
+  @Get('get-users')
+  async getUsers() {
+    return CoreApiResponse.success(await this.useCaseService.getUsers());
+  }
 }

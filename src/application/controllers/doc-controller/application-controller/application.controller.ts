@@ -14,11 +14,21 @@ export class DocApplicationController {
     return CoreApiResponse.success(await this.useCaseService.createApplication(dto));
   }
 
+  @Post('finish-appoinement/:appointmentId')
+  async finishAppointment(@Param('appointmentId') appointmentId: number) {
+    return CoreApiResponse.success(await this.useCaseService.finishApplication(appointmentId));
+  }
+
   // applications by users
   @Get('applications')
   async getApplications(@Query('status') status: ReportStatusEnum) {
     const data = await this.useCaseService.getApplications({ status });
     return CoreApiResponse.success(data);
+  }
+
+  @Get('applications/doc')
+  async getAssignedApplications() {
+    return CoreApiResponse.success(await this.useCaseService.getAllAssignedApplications());
   }
 
   @Patch('update/application')

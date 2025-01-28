@@ -46,4 +46,10 @@ export class DocUserUseCaseService {
       id: Not(this.cls.get<IDocClsData>('doc').id),
     });
   }
+
+  async getUsers() {
+    return await this.dataService.user.getAllWithoutPagination({
+      isAdmin: false,
+    });
+  }
 }
