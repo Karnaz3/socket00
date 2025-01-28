@@ -1,14 +1,13 @@
 import InjectableString from 'src/common/injectable.string';
 import { DataSource } from 'typeorm';
 import { AdminEntity } from '../entities';
-import { ChatRoomEntity } from '../entities/chat-room.entity';
+import { AppointmentEntity } from '../entities/appointment.entity';
 import { FileEntity } from '../entities/file.entity';
 import { MessageEntity } from '../entities/message.entity';
+import { PermissionEntity } from '../entities/permission.entity';
+import { RecordEntity } from '../entities/record.entity';
 import { UsersEntity } from '../entities/users.entity';
 import { appDataSourceProviders } from './appDatabase.provider';
-import { PermissionEntity } from '../entities/permission.entity';
-import { AppointmentEntity } from '../entities/appointment.entity';
-import { RecordEntity } from '../entities/record.entity';
 
 const providers = [
   ...appDataSourceProviders,
@@ -35,13 +34,6 @@ const providers = [
     inject: [InjectableString.APP_DATA_SOURCE],
   },
 
-  {
-    provide: ChatRoomEntity.REPOSITORY,
-    useFactory: (dataSource: DataSource) => {
-      return dataSource.getRepository(ChatRoomEntity);
-    },
-    inject: [InjectableString.APP_DATA_SOURCE],
-  },
   {
     provide: MessageEntity.REPOSITORY,
     useFactory: (dataSource: DataSource) => {

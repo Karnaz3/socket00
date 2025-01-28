@@ -9,5 +9,4 @@ export class UserModel {
   isVerified: boolean;
   isOnline: boolean;
   isAdmin: boolean;
-  chatRoom: ChatRoomModel[];
 }

@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { AppointmentEntity } from './appointment.entity';
 import { BaseEntity } from './base.entity';
-import { ChatRoomEntity } from './chat-room.entity';
 import { UsersEntity } from './users.entity';
 
 @Entity('message')
@@ -16,9 +16,9 @@ export class MessageEntity extends BaseEntity {
   })
   sender: UsersEntity;
 
-  @ManyToOne(() => ChatRoomEntity, { onDelete: 'CASCADE' })
+  @ManyToOne(() => AppointmentEntity, { onDelete: 'CASCADE' })
   @JoinColumn({
-    name: 'user_chat_room_id', // Assuming the foreign key in the database is user_chat_room_id
+    name: 'appointment_id', // Assuming the foreign key in the database is user_chat_room_id
   })
-  chatRoom: ChatRoomEntity;
+  appointment: AppointmentEntity;
 }

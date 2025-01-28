@@ -1,9 +1,9 @@
-import { ChatRoomModel } from './chat-room.model.ts.js';
+import { AppointmentModel } from './appointment.model.js';
 import { UserModel } from './user.model';
 
 export class MessageModel {
   id: number;
   content: string;
   sender: UserModel;
-  chatRoom: ChatRoomModel;
+  appointment: AppointmentModel;
 }

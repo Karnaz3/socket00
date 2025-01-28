@@ -20,7 +20,7 @@ export class AppointmentChatGateway implements OnGatewayConnection, OnGatewayDis
   private readonly logger = new Logger(AppointmentChatGateway.name);
 
   constructor() {}
-  handleDisconnect(client: any) {
+  handleDisconnect(client: any) { 
     const userId = client.jwtPayload?.id;
     if (userId) {
       this.logger.log(`User disconnected: ${client.id}`);
@@ -32,7 +32,7 @@ export class AppointmentChatGateway implements OnGatewayConnection, OnGatewayDis
 
   async handleConnection(client: WsWithAuth) {
     // join the user to the appointment room
-    client.join(client.authPayload.appointment.id.toString());
+    client.join(client.authPayload.appointment.id.toString()); // 123 room doc and patient are connected
   }
 
   @SubscribeMessage(AppointmentEventConstant.message)

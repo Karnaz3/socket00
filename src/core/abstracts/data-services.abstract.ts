@@ -15,7 +15,6 @@ export abstract class IDataServices {
   abstract user: IUserRepository<UserModel>;
   abstract file: IGenericRepository<FileModel>;
   abstract message: IGenericRepository<MessageModel>;
-  abstract chatRoom: IGenericRepository<ChatRoomModel>;
   abstract permission: IGenericRepository<PermissionModel>;
   abstract record: IGenericRepository<RecordModel>;
   abstract appointment: IGenericRepository<AppointmentModel>;

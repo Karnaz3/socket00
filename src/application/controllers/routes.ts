@@ -1,15 +1,14 @@
 import { Routes } from '@nestjs/core';
 import { AdminControllerModule } from './admin/admin-controller.module';
 import { AuthControllerModule } from './auth/auth-controller.module';
-import { ChatControllerModule } from './chat-controller/chat-controller.module';
 import { DocApplicationControllerModule } from './doc-controller/application-controller/application-controller.module';
+import { GeneralDocControllerModule } from './doc-controller/general-controller/general.module';
 import { DocRecordControllerModule } from './doc-controller/record-controller/record-controller.module';
 import { FileUploadControllerModule } from './file-upload/file-upload.module';
-import { UserControllerModule } from './user-controller/user-controller.module';
 import { UserApplicationControllerModule } from './user-controller/application-controller/user-application.module';
-import { UserRecordControllerModule } from './user-controller/record-controller/user-record.module';
-import { GeneralDocControllerModule } from './doc-controller/general-controller/general.module';
 import { GeneralUserControllerModule } from './user-controller/general-controller/general.module';
+import { UserRecordControllerModule } from './user-controller/record-controller/user-record.module';
+import { UserControllerModule } from './user-controller/user-controller.module';
 
 const routes: Routes = [
   {
@@ -31,10 +30,6 @@ const routes: Routes = [
           UserRecordControllerModule,
           GeneralUserControllerModule,
         ],
-      },
-      {
-        path: '/chat',
-        children: [ChatControllerModule],
       },
       {
         path: '/upload',
