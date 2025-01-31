@@ -9,7 +9,9 @@ import {
 import { Namespace } from 'socket.io';
 import { AppointmentEventConstant, NamespaceConstants } from 'src/common/type/socket-constants/namespace.constant';
 import { WsWithAuth } from 'src/common/type/socket-constants/socket-with-auth';
+import { IDataServices } from 'src/core/abstracts';
 import { MessageDto } from 'src/core/dtos/request/chat.dto';
+import { MessageModel } from 'src/core/models/message.model';
 
 @WebSocketGateway({
   namespace: `/${NamespaceConstants.appointment}`, // The namespace
@@ -19,7 +21,7 @@ export class AppointmentChatGateway implements OnGatewayConnection, OnGatewayDis
   @WebSocketServer() namespace: Namespace;
   private readonly logger = new Logger(AppointmentChatGateway.name);
 
-  constructor() {}
+  constructor(private readonly dataService: IDataServices) {}
   handleDisconnect(client: any) {
     const userId = client.jwtPayload?.id;
     if (userId) {
@@ -37,13 +39,14 @@ export class AppointmentChatGateway implements OnGatewayConnection, OnGatewayDis
 
   @SubscribeMessage(AppointmentEventConstant.message)
   async handleMessage(client: WsWithAuth, payload: MessageDto) {
-    // const message = await this.dataservice.message.create({
-    //   body: payload.content,
-    //   sender: client.authPayload.user,
-    // });
+    const message = new MessageModel();
+    message.appointment = client.authPayload.appointment;
+    message.content = payload.content;
+    message.sender = client.authPayload.user;
+    const data = await this.dataService.message.create(message);
 
     this.namespace.to(client.authPayload.appointment.id.toString()).emit(AppointmentEventConstant.message, {
-      message: 'hello',
+      message: data.content,
     });
   }
 }
