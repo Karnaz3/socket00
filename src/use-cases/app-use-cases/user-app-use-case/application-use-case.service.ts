@@ -79,4 +79,12 @@ export class UserApplicationUseCaseService {
   //  const application = await this.dataServices.appointment.getOne({ id });
   //  return await this.dataServices.appointment.remove({ id: application.id });
   //}
+
+  async getApplicationMessages(appointmentId: number) {
+    const loggedUser = this.cls.get<IUserClsData>('user');
+    return await this.dataServices.message.getAllWithoutPagination({
+      appointment: { id: appointmentId },
+      sender: { id: loggedUser.id },
+    });
+  }
 }

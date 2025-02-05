@@ -31,6 +31,11 @@ export class DocApplicationController {
     return CoreApiResponse.success(await this.useCaseService.getAllAssignedApplications());
   }
 
+  @Get('applications/message/:appointmentId')
+  async getApplicationMessages(@Param('appointmentId') appointmentId: number) {
+    return CoreApiResponse.success(await this.useCaseService.getApplicationMessage(appointmentId));
+  }
+
   @Patch('update/application')
   async updateAppplication(@Body() dto: UpdateApplicationDto) {
     return CoreApiResponse.success(await this.useCaseService.updateApplication(dto));

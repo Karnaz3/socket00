@@ -1,6 +1,5 @@
 import { AdminModel } from '../models';
 import { AppointmentModel } from '../models/appointment.model';
-import { ChatRoomModel } from '../models/chat-room.model.ts';
 import { FileModel } from '../models/file.model';
 import { MessageModel } from '../models/message.model';
 import { PermissionModel } from '../models/permission.model';

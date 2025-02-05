@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { CoreApiResponse } from 'src/application/api/core-api-response';
 import { ReportStatusEnum } from 'src/common/enums/report-status.enum';
 import { CreateUserApplicationDto, UpdateApplicationUserDto } from 'src/core/dtos/application-request/application.dto';
@@ -16,6 +16,12 @@ export class UserApplicationController {
   @Get('applications')
   async getApplications(@Query('status') status: ReportStatusEnum) {
     const data = await this.useCaseService.getApplications({ status });
+    return CoreApiResponse.success(data);
+  }
+
+  @Get('applications/message/:appointmentId')
+  async getApplicationMessages(@Param('appointmentId') appointmentId: number) {
+    const data = await this.useCaseService.getApplicationMessages(appointmentId);
     return CoreApiResponse.success(data);
   }
 
