@@ -9,6 +9,8 @@ import { UserApplicationControllerModule } from './user-controller/application-c
 import { GeneralUserControllerModule } from './user-controller/general-controller/general.module';
 import { UserRecordControllerModule } from './user-controller/record-controller/user-record.module';
 import { UserControllerModule } from './user-controller/user-controller.module';
+import { MedicationControllerModule } from './doc-controller/medication-controller/medication-controller.module';
+import { MedicationControllerModuleUser } from './user-controller/medication-controller/medication-controller.module';
 
 const routes: Routes = [
   {
@@ -20,7 +22,12 @@ const routes: Routes = [
       },
       {
         path: '/doc',
-        children: [DocApplicationControllerModule, DocRecordControllerModule, GeneralDocControllerModule],
+        children: [
+          DocApplicationControllerModule,
+          DocRecordControllerModule,
+          GeneralDocControllerModule,
+          MedicationControllerModule,
+        ],
       },
       {
         path: '/user',
@@ -29,6 +36,7 @@ const routes: Routes = [
           UserApplicationControllerModule,
           UserRecordControllerModule,
           GeneralUserControllerModule,
+          MedicationControllerModuleUser,
         ],
       },
       {

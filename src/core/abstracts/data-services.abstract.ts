@@ -1,6 +1,7 @@
 import { AdminModel } from '../models';
 import { AppointmentModel } from '../models/appointment.model';
 import { FileModel } from '../models/file.model';
+import { MedicationModel } from '../models/medication.model';
 import { MessageModel } from '../models/message.model';
 import { PermissionModel } from '../models/permission.model';
 import { RecordModel } from '../models/record.model';
@@ -17,4 +18,5 @@ export abstract class IDataServices {
   abstract permission: IGenericRepository<PermissionModel>;
   abstract record: IGenericRepository<RecordModel>;
   abstract appointment: IGenericRepository<AppointmentModel>;
+  abstract medication: IGenericRepository<MedicationModel>;
 }

@@ -23,6 +23,8 @@ import { UsersEntity } from './entities/users.entity';
 import { PgGenericRepository } from './pg-generic-repository';
 import { PgAdminRepository } from './repositories/admin.repository';
 import { PgIUserRepository } from './repositories/user.repository';
+import { MedicationModel } from 'src/core/models/medication.model';
+import { MedicationEntity } from './entities/medication.entity';
 
 @Injectable()
 export class PgDataServices implements IDataServices, OnApplicationBootstrap {
@@ -33,6 +35,7 @@ export class PgDataServices implements IDataServices, OnApplicationBootstrap {
   permission: PgGenericRepository<PermissionModel>;
   record: PgGenericRepository<RecordModel>;
   appointment: PgGenericRepository<AppointmentModel>;
+  medication: PgGenericRepository<MedicationModel>;
 
   constructor(
     @Inject(AdminEntity.REPOSITORY)
@@ -60,6 +63,9 @@ export class PgDataServices implements IDataServices, OnApplicationBootstrap {
 
     @Inject(AppointmentEntity.REPOSITORY)
     private appointmentRepository: Repository<AppointmentEntity>,
+
+    @Inject(MedicationEntity.REPOSITORY)
+    private medicaitonRepository: Repository<MedicationEntity>,
   ) {}
 
   onApplicationBootstrap() {
@@ -77,5 +83,7 @@ export class PgDataServices implements IDataServices, OnApplicationBootstrap {
     this.record = new PgGenericRepository(this.cls, this.recordRepository);
     // appointment
     this.appointment = new PgGenericRepository(this.cls, this.appointmentRepository);
+    //medication
+    this.medication = new PgGenericRepository(this.cls, this.medicaitonRepository);
   }
 }

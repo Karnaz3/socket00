@@ -8,6 +8,7 @@ import { PermissionEntity } from '../entities/permission.entity';
 import { RecordEntity } from '../entities/record.entity';
 import { UsersEntity } from '../entities/users.entity';
 import { appDataSourceProviders } from './appDatabase.provider';
+import { MedicationEntity } from '../entities/medication.entity';
 
 const providers = [
   ...appDataSourceProviders,
@@ -59,6 +60,13 @@ const providers = [
     provide: RecordEntity.REPOSITORY,
     useFactory: (dataSource: DataSource) => {
       return dataSource.getRepository(RecordEntity);
+    },
+    inject: [InjectableString.APP_DATA_SOURCE],
+  },
+  {
+    provide: MedicationEntity.REPOSITORY,
+    useFactory: (dataSource: DataSource) => {
+      return dataSource.getRepository(MedicationEntity);
     },
     inject: [InjectableString.APP_DATA_SOURCE],
   },

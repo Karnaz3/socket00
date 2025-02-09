@@ -8,6 +8,8 @@ import { UserApplicationControllerModule } from './user-controller/application-c
 import { UserRecordControllerModule } from './user-controller/record-controller/user-record.module';
 import { GeneralDocControllerModule } from './doc-controller/general-controller/general.module';
 import { GeneralUserControllerModule } from './user-controller/general-controller/general.module';
+import { MedicationControllerModule } from './doc-controller/medication-controller/medication-controller.module';
+import { MedicationControllerModuleUser } from './user-controller/medication-controller/medication-controller.module';
 @Module({
   imports: [
     AdminControllerModule,
@@ -20,6 +22,8 @@ import { GeneralUserControllerModule } from './user-controller/general-controlle
     UserRecordControllerModule,
     GeneralDocControllerModule,
     GeneralUserControllerModule,
+    MedicationControllerModule,
+    MedicationControllerModuleUser,
   ],
   exports: [
     AdminControllerModule,
@@ -32,6 +36,8 @@ import { GeneralUserControllerModule } from './user-controller/general-controlle
     UserRecordControllerModule,
     GeneralDocControllerModule,
     GeneralUserControllerModule,
+    MedicationControllerModule,
+    MedicationControllerModuleUser,
   ],
 })
 export class ControllerModule {}
