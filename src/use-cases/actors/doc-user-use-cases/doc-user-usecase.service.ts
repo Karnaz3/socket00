@@ -14,6 +14,11 @@ export class DocUserUseCaseService {
   //get all docs except the self user
   async getAllDocUsers() {
     const user = this.cls.get<IDocClsData>('doc');
+    if (!user || user === undefined) {
+      return await this.dataService.user.getAllWithoutPagination({
+        isAdmin: true,
+      });
+    }
     return await this.dataService.user.getAllWithoutPagination({
       id: Not(user.id),
       isAdmin: true,

@@ -10,6 +10,8 @@ export class CreateApplicationDto {
   note: string;
   @IsNotEmpty()
   date: Date;
+  @IsNotEmpty()
+  title: string;
 }
 
 export class UpdateApplicationDto {
@@ -23,6 +25,8 @@ export class UpdateApplicationDto {
   date: Date;
   @IsOptional()
   status: ReportStatusEnum;
+  @IsOptional()
+  title: string;
 }
 export class UpdateApplicationUserDto {
   @IsNotEmpty()

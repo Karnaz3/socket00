@@ -90,11 +90,19 @@ export class AdminApplicationUseCaseService {
   }
 
   async getApplicationMessage(appointmentId: number) {
-    const loggedUser = this.cls.get('user');
+    const loggedUser = this.cls.get<IDocClsData>('doc');
     const messages = await this.dataServices.message.getAllWithoutPagination({
       appointment: { id: appointmentId },
       sender: { id: loggedUser.id },
     });
     return messages;
+  }
+
+  async getApprovedApplications() {
+    const doc = this.cls.get<IDocClsData>('doc');
+    return await this.dataServices.appointment.getAllWithoutPagination({
+      status: ReportStatusEnum.PENDING,
+      doc: { id: doc.id },
+    });
   }
 }

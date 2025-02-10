@@ -1,5 +1,3 @@
-import { ChatRoomModel } from './chat-room.model.ts';
-
 export class UserModel {
   id: number;
   name: string;

@@ -27,6 +27,7 @@ export class AdminRecordFactoryUseCaseService {
       const appointment = new AppointmentModel();
       appointment.id = dto.appointmentId;
       record.appointment = appointment;
+      record.title = dto.title || 'Appointment';
     }
     if (appoint) record.appointment = appoint;
     record.status = ReportStatusEnum.RESOLVED;
@@ -39,6 +40,7 @@ export class AdminRecordFactoryUseCaseService {
       doc.id = dto.docId;
       model.doc = doc;
     }
+    if (dto.title) model.title = dto.title;
     if (dto.problem) model.problem = dto.problem;
     if (dto.solution) model.solution = dto.solution;
     if (dto.status) model.status = dto.status;

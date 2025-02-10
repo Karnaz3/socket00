@@ -16,6 +16,7 @@ export class UserApplicationFactoryUseCaseService {
     if (dto.note) appointment.note = dto.note;
     appointment.requestByDoc = false;
     appointment.status = ReportStatusEnum.CREATED;
+    appointment.title = 'Appointment by User';
     return appointment;
   }
 

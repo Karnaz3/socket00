@@ -6,6 +6,12 @@ import { UsersEntity } from './users.entity';
 
 @Entity('appointment')
 export class AppointmentEntity extends BaseEntity {
+  @Column({
+    name: 'title',
+    nullable: true,
+  })
+  title: string;
+
   @ManyToOne(() => UsersEntity, { onDelete: 'CASCADE', eager: true })
   @JoinColumn({
     name: 'user_id',

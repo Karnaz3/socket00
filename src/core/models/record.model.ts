@@ -4,6 +4,7 @@ import { AppointmentModel } from './appointment.model';
 
 export class RecordModel {
   id: number;
+  title: string;
   user: UserModel;
   doc: UserModel;
   problem: string;

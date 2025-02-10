@@ -4,11 +4,15 @@ import { Roles } from 'src/application/decorators/role.decorator';
 import { AdminRoleEnum } from 'src/common/enums/admin-role.enum';
 import { IPaginationQuery } from 'src/common/interface/response/interface/pagination.options.interface';
 import { CreateAdminDto, UpdateAdminDto } from 'src/core/dtos/request/admin.dto';
+import { DocUserUseCaseService } from 'src/use-cases/actors/doc-user-use-cases/doc-user-usecase.service';
 import { AdminUserUseCaseService } from 'src/use-cases/admin-use-cases/admin-user/admin-user-use-case.service';
 
 @Controller('admin-user')
 export class AdminController {
-  constructor(private adminUseCaseService: AdminUserUseCaseService) {}
+  constructor(
+    private readonly adminUseCaseService: AdminUserUseCaseService,
+    private readonly docService: DocUserUseCaseService,
+  ) {}
 
   @Post()
   @Roles(AdminRoleEnum.SUPER_ADMIN)
@@ -32,6 +36,11 @@ export class AdminController {
   @Get()
   async getAllAdmin(@Query() query: IPaginationQuery) {
     return CoreApiResponse.pagination(await this.adminUseCaseService.getAllAdmin(), query);
+  }
+
+  @Get('/all-doctors')
+  async getAllDoctors() {
+    return CoreApiResponse.success(await this.docService.getAllDocUsers());
   }
 
   @Get(':id')

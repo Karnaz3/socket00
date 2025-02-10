@@ -20,6 +20,10 @@ export class DocApplicationController {
   }
 
   // applications by users
+  @Get('own-approved')
+  async getOwnApprovedApplications() {
+    return CoreApiResponse.success(await this.useCaseService.getApprovedApplications());
+  }
   @Get('applications')
   async getApplications(@Query('status') status: ReportStatusEnum) {
     const data = await this.useCaseService.getApplications({ status });

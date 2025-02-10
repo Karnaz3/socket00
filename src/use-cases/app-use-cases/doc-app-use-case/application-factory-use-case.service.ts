@@ -28,6 +28,7 @@ export class AdminApplicationFactoryUseCaseService {
     if (dto.date) appointment.visitDate = dto.date;
     appointment.requestByDoc = true;
     appointment.status = ReportStatusEnum.CREATED;
+    appointment.title = dto.title;
     return appointment;
   }
 
@@ -41,6 +42,7 @@ export class AdminApplicationFactoryUseCaseService {
     if (dto.date) model.visitDate = dto.date;
     if (dto.status) model.status = dto.status;
     if (dto.note) model.note = dto.note;
+    if (dto.title) model.title = dto.title;
     return model;
   }
 }
