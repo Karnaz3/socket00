@@ -90,11 +90,14 @@ export class AdminApplicationUseCaseService {
   }
 
   async getApplicationMessage(appointmentId: number) {
-    const loggedUser = this.cls.get<IDocClsData>('doc');
-    const messages = await this.dataServices.message.getAllWithoutPagination({
-      appointment: { id: appointmentId },
-      sender: { id: loggedUser.id },
-    });
+    //const loggedUser = this.cls.get<IDocClsData>('doc');
+    const messages = await this.dataServices.message.getAllWithoutPagination(
+      {
+        appointment: { id: appointmentId },
+        //sender: { id: loggedUser.id },
+      },
+      { sender: true },
+    );
     return messages;
   }
 
