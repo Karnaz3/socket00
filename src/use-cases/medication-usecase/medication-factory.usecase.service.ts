@@ -14,6 +14,7 @@ export class MedicationFactoryService {
     medication.duration = dto.duration;
     medication.docId = dto.docId;
     medication.userId = dto.userId;
+    medication.recordId = dto.recordId;
     return medication;
   }
 
@@ -25,7 +26,7 @@ export class MedicationFactoryService {
     if (dto.frequency) medicaiton.frequency = dto.frequency;
     if (dto.expirationDate) medicaiton.expirationDate = dto.expirationDate;
     if (dto.duration) medicaiton.duration = dto.duration;
-    if (dto.docId) medicaiton.docId = dto.docId;
+    //if (dto.docId) medicaiton.docId = dto.docId;
     if (dto.userId) medicaiton.userId = dto.userId;
     return medicaiton;
   }

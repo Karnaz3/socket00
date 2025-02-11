@@ -30,6 +30,9 @@ export class CreateMedicationDto {
 
   @IsNotEmpty({ message: 'User ID is required' })
   userId: number;
+
+  @IsNotEmpty({ message: 'Record ID is required' })
+  recordId: number;
 }
 
 export class UpdateMedicationDto extends PartialType(CreateMedicationDto) {

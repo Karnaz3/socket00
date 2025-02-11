@@ -1,6 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { BaseEntity } from './base.entity';
 import { UsersEntity } from './users.entity';
+import { RecordEntity } from './record.entity';
 
 @Entity('medication')
 export class MedicationEntity extends BaseEntity {
@@ -63,4 +64,16 @@ export class MedicationEntity extends BaseEntity {
     name: 'doc_id',
   })
   doc: UsersEntity;
+
+  @Column({
+    name: 'record_id',
+    nullable: false,
+  })
+  recordId: number;
+
+  @ManyToOne(() => RecordEntity, { onDelete: 'CASCADE' })
+  @JoinColumn({
+    name: 'record_id',
+  })
+  record: RecordEntity;
 }

@@ -1,8 +1,9 @@
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { BaseEntity } from './base.entity';
 import { UsersEntity } from './users.entity';
 import { ReportStatusEnum } from 'src/common/enums/report-status.enum';
 import { AppointmentEntity } from './appointment.entity';
+import { MedicationEntity } from './medication.entity';
 
 @Entity('record')
 export class RecordEntity extends BaseEntity {
@@ -50,4 +51,16 @@ export class RecordEntity extends BaseEntity {
     name: 'appointment_id',
   })
   appointment: AppointmentEntity;
+
+  @Column({
+    name: 'medication_id',
+    nullable: true,
+  })
+  medicationId: number;
+
+  @OneToMany(() => MedicationEntity, (medication) => medication.record)
+  @JoinColumn({
+    name: 'medication_id',
+  })
+  medication: MedicationEntity;
 }

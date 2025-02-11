@@ -7,4 +7,5 @@ export class MedicationModel {
   duration: string;
   userId: number;
   docId: number;
+  recordId: number;
 }

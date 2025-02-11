@@ -34,10 +34,13 @@ export class UserRecordUseCaseService {
 
   async getRecordById(recordId: number) {
     const user = this.cls.get<IUserClsData>('user');
-    const data = await this.dataServices.record.getOne({
-      id: recordId,
-      user: { id: user.id },
-    });
+    const data = await this.dataServices.record.getOne(
+      {
+        id: recordId,
+        user: { id: user.id },
+      },
+      { medication: true },
+    );
     return data;
   }
 }
