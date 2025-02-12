@@ -17,7 +17,7 @@ export class SocketIOAdapter extends IoAdapter {
     const jwtService = this.app.get(IJwtService);
     const dataServices = this.app.get(IDataServices);
     const cors = {
-      origin: '*',
+      origin: ['*', 'http://localhost:3000'],
     };
 
     const server: Server = super.createIOServer(port, { ...options, cors });
