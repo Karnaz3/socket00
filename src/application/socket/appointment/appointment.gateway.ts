@@ -7,6 +7,7 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Namespace } from 'socket.io';
+import AppException from 'src/application/exception/app.exception';
 import { AppointmentEventConstant, NamespaceConstants } from 'src/common/type/socket-constants/namespace.constant';
 import { WsWithAuth } from 'src/common/type/socket-constants/socket-with-auth';
 import { IDataServices } from 'src/core/abstracts';
@@ -33,8 +34,27 @@ export class AppointmentChatGateway implements OnGatewayConnection, OnGatewayDis
   }
 
   async handleConnection(client: WsWithAuth) {
-    // join the user to the appointment room
-    client.join(client.authPayload.appointment.id.toString()); // 123 room doc and patient are connected
+    try {
+      await this.checkForValidation(client);
+      // If no error is thrown, validation passed.
+      client.join(client.authPayload.appointment.id.toString());
+    } catch (error) {
+      // Validation failed; disconnect the client.
+      client.disconnect();
+      // Optionally, log the error here.
+    }
+  }
+
+  async checkForValidation(client: WsWithAuth): Promise<void> {
+    // Check for valid user in space
+    const data = await this.dataService.appointment.getOne({
+      id: client.authPayload.appointment.id,
+      user: client.authPayload.user,
+    });
+    if (!data) {
+      throw new AppException('User not allowed in this space');
+    }
+    // No return needed; if the function completes, validation passed.
   }
 
   @SubscribeMessage(AppointmentEventConstant.message)
